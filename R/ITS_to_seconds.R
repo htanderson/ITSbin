@@ -10,7 +10,7 @@
 #' @param time.zone OS-specific character string for time zone. To use current
 #'   system timezone, type "Sys.timezone()". For other options, run OlsonNames()
 #'   for list.
-#' @return 4 CSVs per file input (recordings, blocks, segments, validation).
+#' @return Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 validation and 1 tracking file per run.
 #' @export
 #' @examples
 #' ITS_to_seconds(
