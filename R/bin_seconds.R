@@ -13,10 +13,10 @@
 #' @export
 #' @examples
 #' bin_seconds(
-#' seconds.dir = "Server:/LENAData/secMidnight,
+#' seconds.dir = "Server:/LENAData/secMidnight",
 #' output.dir = "Server:/LENAData/min1Midnight",
-#' bin.to.mins)
-#' @imports
+#' bin.to.mins = 5,
+#' align.rows = "midnight")
 #'
 
 bin_seconds <-

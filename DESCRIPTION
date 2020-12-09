@@ -17,12 +17,23 @@ Description: From the Language Environment Analysis System (LENA)
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
-Imports:
-  data.table
-  magrittr
-  xml2
-  lubridate
-  purrr
-  dplyr
-  hablar
+Depends: 
+  R (>= 3.2.0),
+  data.table,
+  magrittr,
+  xml2,
+  lubridate,
+  purrr,
+  dplyr,
+  hablar,
   zoo
+Imports:
+  data.table,
+  magrittr,
+  xml2,
+  lubridate,
+  purrr,
+  dplyr,
+  hablar,
+  zoo
+RoxygenNote: 7.0.0
