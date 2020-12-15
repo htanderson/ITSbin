@@ -4,10 +4,12 @@ Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Heather",
            family = "Anderson",
+           middle = "T.",
            role = c("cre", "aut"),
            email = "heathera@uoregon.edu",
            comment = c(github = "htanderson")),
     person(given = "Caitlin",
+           middle = "M.",
            family = "Fausey",
            role = c("aut", "ths"),
            email = "fausey@uoregon.edu"))
