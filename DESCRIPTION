@@ -1,26 +1,27 @@
 Package: ITSbin
-Title: Wrangle LENA ITS Files into Usable Dataframes
+Title: Wrangle LENA ITS Files into Linear Seconds & Minutes
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "Heather",
            family = "Anderson",
-           role = c("aut", "cre"),
+           role = c("cre", "aut"),
            email = "heathera@uoregon.edu",
-           comment = c(ORCID = "https://orcid.org/0000-0002-7997-2085"))
+           comment = c(github = "htanderson")),
+    person(given = "Caitlin",
+           family = "Fausey",
+           role = c("aut", "ths"),
+           email = "fausey@uoregon.edu"))
 Description: From the Language Environment Analysis System (LENA) 
   Iterative Time Segments (ITS) files, import information from 
   recordings, blocks, and segments, then orders information into 
-  centiseconds- and seconds-from-midnight. Outputs one CSV file 
-  per input ITS file (ITS_to_seconds). Bin into user-specified 
-  minutes-from-midnight (bin_seconds). Correct recording
-  errors (removeRecds).
+  centiseconds- and seconds-from-midnight (ITS_to_seconds). Bin into user-specified 
+  minutes-from-midnight (bin_seconds). Remove unwanted recordings 
+  from ITS file (remove_recordings).
 License: What license it uses
 Encoding: UTF-8
 LazyData: true
 Depends: 
-  R (>= 3.2.0),
-  data.table,
-  magrittr
+  R (>= 3.2.0)
 Imports:
   data.table,
   magrittr,
@@ -29,5 +30,6 @@ Imports:
   purrr,
   dplyr,
   hablar,
-  zoo
+  zoo,
+  stringi
 RoxygenNote: 7.0.0
