@@ -1,22 +1,30 @@
 #' @title ITS_to_seconds
 #'
-#' @description This function imports Recordings, Blocks, and Segments
-#'   (uninterrupted human-created sounds, electronic noise, or silence) from an
-#'   ITS file, converts them into a dataframe, then adds time from desired time
-#'   zone in clocktime and seconds from midnight.
-#' @param ITS.dir Directory (string) containing ITS files. Default = working
-#'   directory.
+#' @description This function takes a folder containing LENA ITS files as input, imports Recordings, Blocks, and Segments (uninterrupted human-created sounds, electronic noise, or silence) from each ITS file, converts them into dataframes, then adds time from desired time zone in clocktime and seconds from midnight. Files are expanded from 1 row per segment to 1 row per centisecond, then collapsed to 1 row per second (final output). Centiseconds & seconds files start at midnight the first day the recorder was turned on and end at either noon the following day or when the recorder was turned off for the last time, whichever is later.
+#'
+#'  *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
+#'
+#' IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements.
+#'
+#' @param ITS.dir Directory (string) containing ITS files. Default = working directory.
 #' @param CSV.dir Directory (string) to store CSV files
-#' @param time.zone OS-specific character string for time zone. To use current
-#'   system timezone, type "Sys.timezone()". For other options, run OlsonNames()
-#'   for list.
-#' @return Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 validation and 1 tracking file per run.
+#' @param time.zone OS-specific character string for time zone. To use current system timezone, type "Sys.timezone()". For other options, run OlsonNames() for list.
+#' @param write.recordings Logical. Default = FALSE. Output a CSV containing ITS Recording-level information for each input ITS file.
+#' @param write.blocks Logical. Default = FALSE. Output a CSV containing ITS Block-level information for each input ITS file.
+#' @param write.segments Logical. Default = FALSE. Output a CSV containing ITS Segment-level information for each input ITS file.
+#' @param write.centiseconds Logical. Default = FALSE. Output a CSV containing centisecond-level information for each input ITS file. Output file contains 1 row per centisecond in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). WARNING: These files are >2GB each.
+#' @param write.seconds Logical. Default = TRUE. Output a CSV containing second-level information for each input ITS file. Output file contains 1 row per second in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). This file is required for all downstream binning functions.
+#' @return Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 function validation, 1 ITS file checks, and 1 tracking file per run. If any files fail validation or ITS file checks, additional tracking CSV output per run (ValidationFails.csv and/or OddFiles.csv)
+#' @import data.table
+#' @import xml2
+#' @import magrittr
 #' @export
 #' @examples
 #' ITS_to_seconds(
 #' ITS.dir = "SERVER:/ITS_Files/",
 #' CSV.dir = "SERVER:/CSVOutput/",
 #' time.zone = "America/Los_Angeles")
+
 
 ITS_to_seconds <-
   function(
@@ -272,14 +280,14 @@ ITS_to_seconds <-
         message(subjID, " failed at least 1 ITS recording check.
                 Check recordings.")
 
-          # create directory to store recording info
-          dir.create(paste0(CSV.dir, "recordings/"),
-                     showWarnings = FALSE)
+        # create directory to store recording info
+        dir.create(paste0(CSV.dir, "recordings/"),
+                   showWarnings = FALSE)
 
-          fwrite(x = recordings.DF,
-                 file =
-                   paste0(CSV.dir, "recordings/",
-                          subjID, "_ITS_recordings.csv"))
+        fwrite(x = recordings.DF,
+               file =
+                 paste0(CSV.dir, "recordings/",
+                        subjID, "_ITS_recordings.csv"))
       }
 
       # assign to global environment in case
@@ -394,7 +402,7 @@ ITS_to_seconds <-
         # Some exist under//ProcessingUnit/Bar/Recording - not wanted
         xml_find_all(xpath =  ".//ProcessingUnit/Recording") %>%
         # Extract attributes (information) from Recording paths
-        xml_attrs %>%
+        xml_attrs() %>%
         # Convert to data frame list
         # NOTE: converting to data.table directly loses colnames
         lapply(FUN = as.data.frame.list,
@@ -430,8 +438,8 @@ ITS_to_seconds <-
                     ( # add time.zone to keep track
                       timezone = time.zone,
                       startclocklocal = format(startClockTime,
-                                              tz = time.zone,
-                                              usetz = F) %>%
+                                               tz = time.zone,
+                                               usetz = F) %>%
                         as.POSIXct(tz = time.zone) %>%
                         as.character.POSIXt,
                       endclocklocal = format(endClockTime,
@@ -471,7 +479,7 @@ ITS_to_seconds <-
       # Excel will format as numeric. Data is correct in DF and CSV.
       recordings.DF[, recClockEnd :=
                       endTime %>%
-                      seconds_to_period %>%
+                      lubridate::seconds_to_period() %>%
                       {sprintf('%02d:%02d:%05.2f',
                                lubridate::hour(x = .),
                                lubridate::minute(x = .),
@@ -503,18 +511,18 @@ ITS_to_seconds <-
       ITS.checks[,
                  # recording day longer than 36 hours?
                  ":=" (
-                 "recDayLessThan36hrs" =
-                   recordings.DF[.N,
-                                 endclocklocal_secMidnight] <
-                   129600,
+                   "recDayLessThan36hrs" =
+                     recordings.DF[.N,
+                                   endclocklocal_secMidnight] <
+                     129600,
 
-                 # at least 4 hours continuous
-                 "min4hrsContinuous" =
-                   recordings.DF[, max(recDur) >= 14400],
+                   # at least 4 hours continuous
+                   "min4hrsContinuous" =
+                     recordings.DF[, max(recDur) >= 14400],
 
-                 # at least 10 hours of recording
-                 "min10hrsTotal" =
-                   recordings.DF[, sum(recDur) >= 36000])]
+                   # at least 10 hours of recording
+                   "min10hrsTotal" =
+                     recordings.DF[, sum(recDur) >= 36000])]
 
 
       # All recordings start on the same day?
@@ -526,7 +534,10 @@ ITS_to_seconds <-
         # do all recordings start on recording 1 day?
         ITS.checks[,
                    "allRecsSameDay" :=
-                     recordings.DF[, all(date(startclocklocal) == dayOne)]]
+                     recordings.DF[,
+                                   all(
+                                     lubridate::date(startclocklocal) ==
+                                       dayOne)]]
 
         # warning if recordings START on different days
         # does NOT throw warning if a recording is
@@ -545,10 +556,10 @@ ITS_to_seconds <-
                           subjID, "_ITS_recordings.csv"))
 
           processing.completed[, ":=" (
-                               "recordings.processed" =
-                                 TRUE,
-                               "recordings.written" =
-                                 TRUE)]
+            "recordings.processed" =
+              TRUE,
+            "recordings.written" =
+              TRUE)]
 
           # stop if centiseconds or seconds desired
           if (write.centiseconds | write.seconds) {
@@ -628,11 +639,11 @@ ITS_to_seconds <-
         # extract block attributes
         blocks.DF <-
           its_xml %>%
-          xml_find_all(xpath = "//ProcessingUnit/Recording") %>%
+          xml2::xml_find_all(xpath = "//ProcessingUnit/Recording") %>%
           # children of each recording
           # names vary, can't do directly
-          xml_children %>%
-          xml_attrs %>%
+          xml2::xml_children(x = .) %>%
+          xml2::xml_attrs(x = .) %>%
           # Convert each item in list to data frame,
           lapply(FUN = as.data.frame.list,
                  stringsAsFactors = FALSE) %>%
@@ -705,7 +716,7 @@ ITS_to_seconds <-
         # Excel will format as numeric. Data is correct in DF and CSV.
         blocks.DF[, recClockEnd :=
                     endTime %>%
-                    seconds_to_period %>%
+                    lubridate::seconds_to_period() %>%
                     {sprintf('%02d:%02d:%05.2f',
                              lubridate::hour(x = .),
                              lubridate::minute(x = .),
@@ -774,9 +785,9 @@ ITS_to_seconds <-
       segments.DT <-
         its_xml %>%
         # find all segments in xml ITS.file
-        xml_find_all(xpath = ".//Segment") %>%
+        xml2::xml_find_all(xpath = ".//Segment") %>%
         # extract all attributes
-        xml_attrs %>%
+        xml2::xml_attrs() %>%
         # Convert each item in list to data frame, then rowbind dataframes
         # (with bind_rows for unequal rows)
         # Takes a little longer - maybe 15 seconds
@@ -923,7 +934,7 @@ ITS_to_seconds <-
       # Excel will format as numeric. Data is correct in DF and CSV.
       segments.DT[, recClockEnd :=
                     endTime %>%
-                    seconds_to_period %>%
+                    lubridate::seconds_to_period() %>%
                     {sprintf('%02d:%02d:%05.2f',
                              lubridate::hour(x = .),
                              lubridate::minute(x = .),
@@ -1111,12 +1122,12 @@ ITS_to_seconds <-
       segments.DT[, ":="
                   (csecMidnightStart =
                       startTimeSecMidnight %>%
-                      '*' (100) %>%
+                      multiply_by(100) %>%
                       # correct for weird windows rounding error
                       round,
                     csecMidnightEnd =
                       endTimeSecMidnight %>%
-                      '*' (100) %>%
+                      multiply_by(100) %>%
                       # correct for weird windows rounding error
                       round)]
 
@@ -1152,10 +1163,10 @@ ITS_to_seconds <-
       # add local time without date
       centiseconds.DT[, ("clockTime") :=
                         (csecMidnight / 100) %>%
-                        seconds_to_period %>%
+                        lubridate::seconds_to_period() %>%
                         {sprintf('%02d:%02d:%05.2f',
                                  (lubridate::hour(x = .)+
-                                   (lubridate::day(x = .) * 24)),
+                                    (lubridate::day(x = .) * 24)),
                                  lubridate::minute(x = .),
                                  lubridate::second(x = .)
                         )}]
@@ -1228,7 +1239,7 @@ ITS_to_seconds <-
       centiseconds.DT[recOn == 1,
                       recClock :=
                         (recTime/100) %>%
-                        seconds_to_period %>%
+                        lubridate::seconds_to_period() %>%
                         {sprintf('%02d:%02d:%05.2f',
                                  lubridate::hour(x = .),
                                  lubridate::minute(x = .),
@@ -1829,7 +1840,7 @@ ITS_to_seconds <-
                         by = "DayInSeconds"]
 
       # if more than 1 speaker in second, flag
-      seconds.DT[contains(".", vars = spkr), doubleSpkr := 1]
+      seconds.DT[dplyr::contains(".", vars = spkr), doubleSpkr := 1]
       seconds.DT[is.na(doubleSpkr), doubleSpkr := 0]
 
 
