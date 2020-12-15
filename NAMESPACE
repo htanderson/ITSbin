@@ -2,4 +2,9 @@
 
 export(ITS_to_seconds)
 export(bin_seconds)
-export(removeRecds)
+export(remove_recordings)
+import(data.table)
+import(hablar)
+import(magrittr)
+import(xml2)
+import(zoo)
