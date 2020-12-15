@@ -530,7 +530,7 @@ ITS_to_seconds <-
         # get date recording 1 started
         dayOne <-
           recordings.DF[1, startclocklocal] %>%
-          date
+          lubridate::date()
         # do all recordings start on recording 1 day?
         ITS.checks[,
                    "allRecsSameDay" :=
@@ -1588,7 +1588,8 @@ ITS_to_seconds <-
 
       # add epoch date (to keep hold of it)
       centiseconds.DT[,
-                      "dateMidnight_epoch" := segments.DT[1, dateMidnight_epoch]]
+                      "dateMidnight_epoch" :=
+                        segments.DT[1, dateMidnight_epoch]]
 
 
       # secMidnightDate column: Seconds from epoch start
