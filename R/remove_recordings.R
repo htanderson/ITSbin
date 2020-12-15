@@ -10,7 +10,7 @@
 #' @export
 #' @examples
 #' removeRecds(
-#' ITS.folder = "D:/SkyDrive/Documents/UOregon/16_FYP_LENA/ITS_Files/ITS",
+#' ITS.folder = "SERVER/ITS_Files/ITS",
 #' ITS.file = "subj001.its",
 #' remove.num = 1,
 #' before.keep = TRUE)
