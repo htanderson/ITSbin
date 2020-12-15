@@ -12,6 +12,7 @@ bin_seconds(
   align.rows = c("midnight", "recorder-on"),
   roll.by.mins = NULL,
   subset.by.col = NULL,
+  drop.by.subset = NULL,
   overwrite.existing = FALSE
 )
 }
@@ -28,12 +29,14 @@ bin_seconds(
 
 \item{roll.by.mins}{Numeric. Default = NULL (sequential bins, eg 0-59, 60-119) How many minutes between bins (or, do bins overlap?). Ex, if bin.to.mins = 60 & roll.by.mins = 1, then 1st bin = minutes 0-59, 2nd bin = mins 1-60, 3rd = mins 2-61, etc.}
 
-\item{subset.by.col}{Character. Include only rows where this column is NOT 0 (default = NULL)}
+\item{subset.by.col}{Character. Include only rows where this column is NOT 0 (default = NULL). To include only seconds when the recorder was turned on, set subset.by.col = "recOn" & drop.by.subset = TRUE.}
 
-\item{overwrite.existing}{Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will ovewrite existing file.}
+\item{drop.by.subset}{Logical. If subset column is specified, should rows where subset.by.col == 0 be removed entirely (TRUE) or set to NA (FALSE)? To include only seconds when the recorder was turned on, set subset.by.col = "recOn" & drop.by.subset = TRUE.}
+
+\item{overwrite.existing}{Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will overwrite existing file.}
 }
 \value{
-A dataframe and/or CSV file.
+One CSV file per input seconds file.
 }
 \description{
 This function imports standardized secMidnight files and bins them to specified minutes, starting from midnight.
@@ -44,5 +47,4 @@ seconds.dir = "Server:/LENAData/secMidnight",
 output.dir = "Server:/LENAData/min1Midnight",
 bin.to.mins = 5,
 align.rows = "midnight")
-
 }

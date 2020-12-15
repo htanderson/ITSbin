@@ -7,17 +7,21 @@
 #' @param cross.recordings Logical. Should bins be calculated across or within recordings? (default = TRUE)
 #' @param align.rows Character. opts = c("midnight", "recorder-on") Should the first bin start at midnight (00:00:00) the day the recorder was turned on ("midnight") or the first second in which the recorder was on ("recorder-on")
 #' @param roll.by.mins Numeric. Default = NULL (sequential bins, eg 0-59, 60-119) How many minutes between bins (or, do bins overlap?). Ex, if bin.to.mins = 60 & roll.by.mins = 1, then 1st bin = minutes 0-59, 2nd bin = mins 1-60, 3rd = mins 2-61, etc.
-#' @param subset.by.col Character. Include only rows where this column is NOT 0 (default = NULL)
-#' @param overwrite.existing Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will ovewrite existing file.
-#' @return A dataframe and/or CSV file.
-#' @export
+#' @param subset.by.col Character. Include only rows where this column is NOT 0 (default = NULL). To include only seconds when the recorder was turned on, set subset.by.col = "recOn" & drop.by.subset = TRUE.
+#' @param drop.by.subset Logical. If subset column is specified, should rows where subset.by.col == 0 be removed entirely (TRUE) or set to NA (FALSE)? To include only seconds when the recorder was turned on, set subset.by.col = "recOn" & drop.by.subset = TRUE.
+#' @param overwrite.existing Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will overwrite existing file.
+#' @return One CSV file per input seconds file.
 #' @examples
 #' bin_seconds(
 #' seconds.dir = "Server:/LENAData/secMidnight",
 #' output.dir = "Server:/LENAData/min1Midnight",
 #' bin.to.mins = 5,
 #' align.rows = "midnight")
-#'
+#' @import data.table
+#' @import zoo
+#' @import magrittr
+#' @import hablar
+#' @export
 
 bin_seconds <-
   function(
@@ -28,7 +32,18 @@ bin_seconds <-
     align.rows = c("midnight", "recorder-on"),
     roll.by.mins = NULL,
     subset.by.col = NULL,
+    drop.by.subset = NULL,
     overwrite.existing = FALSE){
+
+    # check inputs
+    if (!is.null(subset.by.col) &
+        !(isTRUE(drop.by.subset) |
+          isFALSE(drop.by.subset))) {
+      stop("If subset.by.col is specified,
+      drop.by.subset must be either
+      TRUE (remove rows before binning) or
+      FALSE (set rows to NA before binning).")
+    }
 
     ### add forward slash to directory names if missing
 
@@ -78,9 +93,13 @@ bin_seconds <-
         # subset or full data
         ifelse(
           test = !is.null(subset.by.col),
-          yes = paste0("subset", subset.by.col),
+          yes = paste0("subset_", subset.by.col,
+                       ifelse(
+                         test = drop.by.subset,
+                         yes = "drop",
+                         no = "NA")),
           no = "alldata")
-        )
+      )
 
     bin.CSV.dir <- paste0(output.dir,
                           user.inputs.filename, "/")
@@ -96,31 +115,37 @@ bin_seconds <-
       "subjID",
       # if want only bins within recordings,
       # subset by recId
-      if((align.rows == "recorder.on" |
+      if((align.rows == "recorder-on" |
           bin.to.mins == "total" |
           bin.to.mins == "Total") &
          !cross.recordings) {"recRleid"})
 
     if (bin.to.mins != "total" |
         bin.to.mins != "Total") {
-      binMins <- (as.numeric(bin.to.mins) * 60)
+      binMins <-
+        bin.to.mins %>%
+        as.numeric() %>%
+        multiply_by(60)
     }
 
     # number to roll by if rolling windows
     if (is.null(roll.by.mins)) {
       rollBy <- binMins
     } else {
-      rollBy <- as.numeric(roll.by.mins) * 60
+      rollBy <-
+        roll.by.mins %>%
+        as.numeric() %>%
+        multiply_by(60)
     }
 
     # rolling function helper
     rollfun <- function(x, f) {
-      rollapply(data = x,
-                FUN = f,
-                width = binMins,
-                by = rollBy,
-                partial = partial.bins,
-                align = "left")
+      zoo::rollapply(data = x,
+                     FUN = f,
+                     width = binMins,
+                     by = rollBy,
+                     partial = partial.bins,
+                     align = "left")
     }
 
     # sum function helper
@@ -180,48 +205,64 @@ bin_seconds <-
 
       if (!is.null(subset.by.col)) {
 
-        # create backup just in case
-        # want to retain name for processing
-        seconds.DT.backup <- seconds.DT
-        infoCols <-
-          c("recId", "recOn",
-            "recTime", "recClock",
-            "segAvgdB", "segPeakdB",
-            "adultWordCnt", "femaleAdultWordCnt",
-            "maleAdultWordCnt", "femaleAdultSpeech",
-            "maleAdultSpeech", "femaleAdultNonSpeech",
-            "maleAdultNonSpeech", "childUttCnt",
-            "childUttLen", "childUtt",
-            "childCry", "childVfx",
-            "convTurnCount", "convTurnInitiate",
-            "convTurnRespond", "convTurnExtend",
-            "MAN", "MAF", "FAN", "FAF", "CHN",
-            "CHF", "CXN", "CXF", "NON", "NOF",
-            "OLN", "OLF", "TVN", "TVF", "SIL", "OFF",
-            "spkr")
+        if (drop.by.subset) {
+          # cannot select with variable column name
+          # must be set to specific name
+          setnames(seconds.DT,
+                   old = subset.by.col,
+                   new = "subset.by.col")
+
+          seconds.DT <-
+            seconds.DT[subset.by.col != 0]
+
+          # change name back to original
+          setnames(seconds.DT,
+                   old = "subset.by.col",
+                   new = subset.by.col)
+        } else {
+
+          # create backup just in case
+          # want to retain name for processing
+
+          infoCols <-
+            c("recId", "recOn",
+              "recTime", "recClock",
+              "segAvgdB", "segPeakdB",
+              "adultWordCnt", "femaleAdultWordCnt",
+              "maleAdultWordCnt", "femaleAdultSpeech",
+              "maleAdultSpeech", "femaleAdultNonSpeech",
+              "maleAdultNonSpeech", "childUttCnt",
+              "childUttLen", "childUtt",
+              "childCry", "childVfx",
+              "convTurnCount", "convTurnInitiate",
+              "convTurnRespond", "convTurnExtend",
+              "MAN", "MAF", "FAN", "FAF", "CHN",
+              "CHF", "CXN", "CXF", "NON", "NOF",
+              "OLN", "OLF", "TVN", "TVF", "SIL", "OFF",
+              "spkr")
 
 
-        # if subset.by.col is in infoCols
-        # remove it so updating works
-        infoCols <-
-          infoCols[!infoCols %in% subset.by.col]
+          # if subset.by.col is in infoCols
+          # remove it so updating works
+          infoCols <-
+            infoCols[!infoCols %in% subset.by.col]
 
-        # cannot select with variable column name
-        # must be set to specific name
-        setnames(seconds.DT,
-                 old = subset.by.col,
-                 new = "subset.by.col")
+          # cannot select with variable column name
+          # must be set to specific name
+          setnames(seconds.DT,
+                   old = subset.by.col,
+                   new = "subset.by.col")
 
-        # where subset.by.col == 0, set to NA
-        seconds.DT[subset.by.col == 0 |
-                     is.na(subset.by.col),
-                   (infoCols) := NA]
+          # where subset.by.col == 0, set to NA
+          seconds.DT[subset.by.col == 0 |
+                       is.na(subset.by.col),
+                     (infoCols) := NA]
 
-        # change name back to original
-        setnames(seconds.DT,
-                 old = "subset.by.col",
-                 new = subset.by.col)
-      }
+          # change name back to original
+          setnames(seconds.DT,
+                   old = "subset.by.col",
+                   new = subset.by.col)
+        }}
 
       # rleid for keeping track of recorder off chunks separately
       seconds.DT[, ":=" (recRleid = rleid(recId))]
@@ -229,7 +270,7 @@ bin_seconds <-
       # if aligning to recorder on
       # drop all rows before 1st second of recorder on
 
-      if (align.rows == "recorder.on") {
+      if (align.rows == "recorder-on") {
 
         first.on <- seconds.DT[recOn >0, first(DayInSeconds)]
 
@@ -285,7 +326,7 @@ bin_seconds <-
                        "recOnPeriod" =
                          recOn %>%
                          sum %>%
-                         seconds_to_period %>%
+                         lubridate::seconds_to_period() %>%
                          {sprintf('%02d:%02d:%05.2f',
                                   lubridate::hour(x = .),
                                   lubridate::minute(x = .),
@@ -426,7 +467,7 @@ bin_seconds <-
                                by = c("DayInSeconds", "subjID"),
                                all.x = TRUE)
 
-            # add column to show DayInSeconds *only* for current selection
+            # add column to show DayInSeconds only for current selection
             recIdSeconds.DT[!is.na(clockTime),
                             "DayInSeconds.Selection" := DayInSeconds]
 
@@ -435,51 +476,78 @@ bin_seconds <-
                               .(#time columns
                                 "DayInSecondsStart" =
                                   rollfun(x = DayInSeconds.Selection,
-                                          f = function(x) as.numeric(first(na.omit(x)))),
+                                          f = function(x)
+                                            as.numeric(
+                                              first_(x,
+                                                     ignore_na = TRUE))),
 
                                 "DayInSecondsEnd" =
                                   rollfun(x = DayInSeconds.Selection,
-                                          f = function(x) as.numeric(last(na.omit(x)))),
+                                          f = function(x)
+                                            as.numeric(
+                                              last_(x,
+                                                    ignore_na = TRUE))),
 
                                 "DayInSecondsDur" =
                                   rollfun(x = DayInSeconds.Selection,
-                                          f = function(x) {
-                                            na.omit(x) %>%
-                                            length(.)}),
+                                          f = function(x)
+                                            n_unique_(x,
+                                                      ignore_na = TRUE)),
 
                                 "clockTimeStart" =
                                   rollfun(x = clockTime,
-                                          f = function(x) as.character(first(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              first_(x,
+                                                     ignore_na = TRUE))),
 
                                 "clockTimeEnd" =
                                   rollfun(x = clockTime,
-                                          f = function(x) as.character(last(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              last_(x,
+                                                    ignore_na = TRUE))),
 
                                 "recTimeStart" =
                                   rollfun(x = recTime,
-                                          f = function(x) as.double(first(na.omit(x)))),
+                                          f = function(x)
+                                            as.double(
+                                              first_(x,
+                                                     ignore_na = TRUE))),
 
                                 "recTimeEnd" =
                                   rollfun(x = recTime,
-                                          f = function(x) as.double(last(na.omit(x)))),
+                                          f = function(x)
+                                            as.double(
+                                              last_(x,
+                                                    ignore_na = TRUE))),
 
                                 "recClockStart" =
                                   rollfun(x = recClock,
-                                          f = function(x) as.character(first(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              first_(x,
+                                                     ignore_na = TRUE))),
 
                                 "recClockEnd" =
                                   rollfun(x = recClock,
-                                          f = function(x) as.character(last(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              last_(x,
+                                                    ignore_na = TRUE))),
 
                                 "recOnSeconds" =
                                   rollfun(x = recOn,
-                                          f = function(x) sum(x, na.rm = TRUE)),
+                                          f = function(x)
+                                            sum_(x,
+                                                 ignore_na = TRUE)),
 
                                 "recOnPeriod" =
                                   rollfun(x = recOn,
                                           f = function(x) {
-                                            sum(x,na.rm = TRUE) %>%
-                                              seconds_to_period %>%
+                                            sum_(x,
+                                                 ignore_na = TRUE) %>%
+                                              lubridate::seconds_to_period() %>%
                                               {sprintf('%02d:%02d:%05.2f',
                                                        lubridate::hour(x = .),
                                                        lubridate::minute(x = .),
@@ -489,18 +557,30 @@ bin_seconds <-
 
                                 "recIdStart" =
                                   rollfun(x = recId,
-                                          f = function(x) as.character(first(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              first_(x,
+                                                     ignore_na = TRUE))),
                                 "recIdEnd" =
                                   rollfun(x = recId,
-                                          f = function(x) as.character(last(na.omit(x)))),
+                                          f = function(x)
+                                            as.character(
+                                              last_(x,
+                                                    ignore_na = TRUE))),
 
                                 # segment sound info
                                 "segAvgdB" =
                                   rollfun(x = segAvgdB,
-                                          f = function(x) as.double(mean_(x, ignore_na = TRUE))),
+                                          f = function(x)
+                                            as.double(
+                                              mean_(x,
+                                                    ignore_na = TRUE))),
                                 "segPeakdB" =
                                   rollfun(x = segPeakdB,
-                                          f = function(x) as.double(max_(x, ignore_na = TRUE))),
+                                          f = function(x)
+                                            as.double(
+                                              max_(x,
+                                                   ignore_na = TRUE))),
 
                                 # adult word counts
                                 "adultWordCnt" =
@@ -640,7 +720,8 @@ bin_seconds <-
             minutes.DT <-
               .rbind.data.table(
                 minutes.DT,
-                tempMins.DT[!is.na(clockTimeStart) | !is.na(clockTimeEnd)],
+                tempMins.DT[!is.na(clockTimeStart) |
+                              !is.na(clockTimeEnd)],
                 fill = TRUE
               )
 
@@ -662,35 +743,50 @@ bin_seconds <-
                             .(#time columns
                               "DayInSecondsStart" =
                                 rollfun(x = DayInSeconds.Selection,
-                                        f = function(x) as.numeric(first(na.omit(x)))),
+                                        f = function(x)
+                                          as.numeric(
+                                            first_(x,
+                                                   ignore_na = TRUE))),
 
                               "DayInSecondsEnd" =
                                 rollfun(x = DayInSeconds.Selection,
-                                        f = function(x) as.numeric(last(na.omit(x)))),
+                                        f = function(x)
+                                          as.numeric(
+                                            last_(x,
+                                                  ignore_na = TRUE))),
 
                               "DayInSecondsDur" =
                                 rollfun(x = DayInSeconds.Selection,
-                                        f = function(x) {
-                                          na.omit(x) %>%
-                                          length(.)}),
+                                        f = function(x)
+                                          n_unique_(x,
+                                                    ignore_na = TRUE)),
 
                               "clockTimeStart" =
                                 rollfun(x = clockTime,
-                                        f = function(x) as.character(first(na.omit(x)))),
+                                        f = function(x)
+                                          as.character(
+                                            first_(x,
+                                                   ignore_na = TRUE))),
 
                               "clockTimeEnd" =
                                 rollfun(x = clockTime,
-                                        f = function(x) as.character(last(na.omit(x)))),
+                                        f = function(x)
+                                          as.character(
+                                            last_(x,
+                                                  ignore_na = TRUE))),
 
                               "recOnSeconds" =
                                 rollfun(x = recOn,
-                                        f = function(x) sum(x, na.rm = TRUE)),
+                                        f = function(x)
+                                          sum_(x,
+                                               ignore_na = TRUE)),
 
                               "recOnPeriod" =
                                 rollfun(x = recOn,
                                         f = function(x) {
-                                          sum(x,na.rm = TRUE) %>%
-                                            seconds_to_period %>%
+                                          sum_(x,
+                                               ignore_na = TRUE) %>%
+                                            lubridate::seconds_to_period() %>%
                                             {sprintf('%02d:%02d:%05.2f',
                                                      lubridate::hour(x = .),
                                                      lubridate::minute(x = .),
@@ -700,7 +796,10 @@ bin_seconds <-
 
                               "recIdStart" =
                                 rollfun(x = recId,
-                                        f = function(x) as.character(first(na.omit(x))))
+                                        f = function(x)
+                                          as.character(
+                                            first_(x,
+                                                   ignore_na = TRUE)))
                             ),
                             by = by.Cols]
 
@@ -737,39 +836,54 @@ bin_seconds <-
                          #time columns
                          "DayInSecondsStart" =
                            rollfun(x = DayInSeconds,
-                                   f = first),
+                                   f = function(x)
+                                     first_(x, ignore_na = TRUE)),
 
                          "DayInSecondsEnd" =
                            rollfun(x = DayInSeconds,
-                                   f = last),
+                                   f = function(x)
+                                     last_(x, ignore_na = TRUE)),
 
                          "DayInSecondsDur" =
                            rollfun(x = DayInSeconds,
-                                   f = length),
+                                   f = function(x)
+                                     n_unique_(x, ignore_na = TRUE)),
 
                          "clockTimeStart" =
                            rollfun(x = clockTime,
-                                   f = function(x) as.character(first(na.omit(x)))),
+                                   f = function(x)
+                                     as.character(
+                                       first_(x, ignore_na = TRUE))),
 
                          "clockTimeEnd" =
                            rollfun(x = clockTime,
-                                   f = function(x) as.character(last(na.omit(x)))),
+                                   f = function(x)
+                                     as.character(
+                                       last_(x, ignore_na = TRUE))),
 
                          "recTimeStart" =
                            rollfun(x = recTime,
-                                   f = function(x) as.double(first(na.omit(x)))),
+                                   f = function(x)
+                                     as.double(
+                                       first_(x, ignore_na = TRUE))),
 
                          "recTimeEnd" =
                            rollfun(x = recTime,
-                                   f = function(x) as.double(last(na.omit(x)))),
+                                   f = function(x)
+                                     as.double(
+                                       last_(x, ignore_na = TRUE))),
 
                          "recClockStart" =
                            rollfun(x = recClock,
-                                   f = function(x) as.character(first(na.omit(x)))),
+                                   f = function(x)
+                                     as.character(
+                                       first_(x, ignore_na = TRUE))),
 
                          "recClockEnd" =
                            rollfun(x = recClock,
-                                   f = function(x) as.character(last(na.omit(x)))),
+                                   f = function(x)
+                                     as.character(
+                                       last_(x, ignore_na = TRUE))),
 
                          "recOnSeconds" =
                            rollfun(x = recOn,
@@ -778,8 +892,8 @@ bin_seconds <-
                          "recOnPeriod" =
                            rollfun(x = recOn,
                                    f = function(x) {
-                                     sum_(x) %>%
-                                       seconds_to_period %>%
+                                     sum_(x, ignore_na = TRUE) %>%
+                                       lubridate::seconds_to_period() %>%
                                        {sprintf('%02d:%02d:%05.2f',
                                                 lubridate::hour(x = .),
                                                 lubridate::minute(x = .),
