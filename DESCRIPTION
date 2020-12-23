@@ -2,14 +2,12 @@ Package: ITSbin
 Title: Wrangle LENA ITS Files into Linear Seconds & Minutes
 Version: 0.0.0.9000
 Authors@R: c(
-    person(given = "Heather",
+    person(given = "Heather T.",
            family = "Anderson",
-           middle = "T.",
            role = c("cre", "aut"),
            email = "heathera@uoregon.edu",
            comment = c(github = "htanderson")),
-    person(given = "Caitlin",
-           middle = "M.",
+    person(given = "Caitlin M.",
            family = "Fausey",
            role = c("aut", "ths"),
            email = "fausey@uoregon.edu"))
@@ -25,13 +23,13 @@ LazyData: true
 Depends: 
   R (>= 3.2.0)
 Imports:
-  data.table,
-  magrittr,
-  xml2,
-  lubridate,
-  purrr,
-  dplyr,
-  hablar,
-  zoo,
-  stringi
+  data.table (>= 1.12.6),
+  magrittr (>= 1.5),
+  xml2 (>= 1.2.2),
+  lubridate (>= 1.7.4),
+  purrr (>= 0.3.3),
+  dplyr (>= 0.8.3),
+  hablar (>= 0.3.0),
+  zoo (>= 1.8.6),
+  stringi (>= 1.4.3)
 RoxygenNote: 7.0.0

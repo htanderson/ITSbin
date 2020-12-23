@@ -40,7 +40,7 @@ This function takes a folder containing LENA ITS files as input, imports Recordi
 
  *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
 
-IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements.
+IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. Such files will be noted and skipped.
 }
 \examples{
 ITS_to_seconds(

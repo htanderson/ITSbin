@@ -4,7 +4,7 @@
 #'
 #'  *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
 #'
-#' IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements.
+#' IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. Such files will be noted and skipped.
 #'
 #' @param ITS.dir Directory (string) containing ITS files. Default = working directory.
 #' @param CSV.dir Directory (string) to store CSV files
