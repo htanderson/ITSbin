@@ -265,7 +265,7 @@ bin_seconds <-
         }}
 
       # rleid for keeping track of recorder off chunks separately
-      seconds.DT[, ":=" (recRleid = rleid(recOn))]
+      seconds.DT[, ":=" (recRleid = rleid(recId))]
 
       # if aligning to recorder on
       # drop all rows before 1st second of recorder on
