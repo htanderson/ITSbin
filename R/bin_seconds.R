@@ -205,25 +205,7 @@ bin_seconds <-
 
       if (!is.null(subset.by.col)) {
 
-        if (drop.by.subset) {
-          # cannot select with variable column name
-          # must be set to specific name
-          setnames(seconds.DT,
-                   old = subset.by.col,
-                   new = "subset.by.col")
-
-          seconds.DT <-
-            seconds.DT[subset.by.col != 0]
-
-          # change name back to original
-          setnames(seconds.DT,
-                   old = "subset.by.col",
-                   new = subset.by.col)
-        } else {
-
-          # create backup just in case
-          # want to retain name for processing
-
+        # list of columns with info
           infoCols <-
             c("recId", "recOn",
               "recTime", "recClock",
@@ -241,9 +223,8 @@ bin_seconds <-
               "OLN", "OLF", "TVN", "TVF", "SIL", "OFF",
               "spkr")
 
-
           # if subset.by.col is in infoCols
-          # remove it so updating works
+          # remove it from list so updating works
           infoCols <-
             infoCols[!infoCols %in% subset.by.col]
 
@@ -262,10 +243,28 @@ bin_seconds <-
           setnames(seconds.DT,
                    old = "subset.by.col",
                    new = subset.by.col)
-        }}
+      }
 
       # rleid for keeping track of recorder off chunks separately
       seconds.DT[, ":=" (recRleid = rleid(recId))]
+
+      # must drop AFTER doing rleid or doesn't group right
+      if (drop.by.subset) {
+        # cannot select with variable column name
+        # must be set to specific name
+        setnames(seconds.DT,
+                 old = subset.by.col,
+                 new = "subset.by.col")
+
+        # keep only where subset.by.col is not 0
+        seconds.DT <-
+          seconds.DT[subset.by.col != 0]
+
+        # change name back to original
+        setnames(seconds.DT,
+                 old = "subset.by.col",
+                 new = subset.by.col)
+      }
 
       # if aligning to recorder on
       # drop all rows before 1st second of recorder on
