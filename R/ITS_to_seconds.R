@@ -4,12 +4,12 @@
 #'
 #'  *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
 #'
-#' IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. Such files will be noted and skipped.
+#' IMPORTANT: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is **strongly recommended** to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.
 #'
-#' @param ITS.dir Directory (string) containing ITS files. Default = working directory.
+#' @param ITS.dir Directory (string) containing ITS files.
 #' @param CSV.dir Directory (string) to store CSV files
 #' @param time.zone OS-specific character string for time zone. To use current system timezone, type "Sys.timezone()". For other options, run OlsonNames() for list.
-#' @param write.recordings Logical. Default = FALSE. Output a CSV containing ITS Recording-level information for each input ITS file.
+#' @param write.recordings Logical. Default = FALSE. Output a CSV containing ITS Recording-level information for each input ITS file. Note: The recordings CSV will *always* be written for any ITS files containing recordings which start on more than one day.
 #' @param write.blocks Logical. Default = FALSE. Output a CSV containing ITS Block-level information for each input ITS file.
 #' @param write.segments Logical. Default = FALSE. Output a CSV containing ITS Segment-level information for each input ITS file.
 #' @param write.centiseconds Logical. Default = FALSE. Output a CSV containing centisecond-level information for each input ITS file. Output file contains 1 row per centisecond in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). WARNING: These files are >2GB each.
@@ -24,7 +24,6 @@
 #' ITS.dir = "SERVER:/ITS_Files/",
 #' CSV.dir = "SERVER:/CSVOutput/",
 #' time.zone = "America/Los_Angeles")
-
 
 ITS_to_seconds <-
   function(
@@ -106,6 +105,9 @@ ITS_to_seconds <-
     purrr::walk(.x = folder.names,
                 .f = create.folders)
 
+
+    # keep track of number completed
+    ITSfileNum <- 0
 
     ##### Helper Functions #####
 
@@ -226,7 +228,6 @@ ITS_to_seconds <-
         freq <- tabulate(
           match(x, ux))
 
-
         mode_loc <-
           which.max(freq)
 
@@ -270,25 +271,10 @@ ITS_to_seconds <-
                                  fill = TRUE),
              envir = .GlobalEnv)
 
-
       # write after every file in case crash
       fwrite(x = validation.allfiles,
              file = paste0(CSV.dir,
                            "ITS_script_validation_inprogress.csv"))
-
-      if (any(ITS.checks[, !"subjID"] != TRUE)) {
-        message(subjID, " failed at least 1 ITS recording check.
-                Check recordings.")
-
-        # create directory to store recording info
-        dir.create(paste0(CSV.dir, "recordings/"),
-                   showWarnings = FALSE)
-
-        fwrite(x = recordings.DF,
-               file =
-                 paste0(CSV.dir, "recordings/",
-                        subjID, "_ITS_recordings.csv"))
-      }
 
       # assign to global environment in case
       # function ended early
@@ -323,7 +309,8 @@ ITS_to_seconds <-
 
       functionEndTime <- Sys.time()
       message("
-              Finished ", subjID, " at ", functionEndTime)
+              Finished file ", ITSfileNum, "/", length(ITS.files),
+              " ", subjID, " at ", functionEndTime)
       timeToRun <- round(functionEndTime - functionStartTime, 2)
       message(
         "Time to process ITS: ", timeToRun, attr(timeToRun, "units"), "
@@ -353,11 +340,17 @@ ITS_to_seconds <-
 
       functionStartTime <- Sys.time()
 
+      ITSfileNum <- ITSfileNum + 1
+
       ### Create subject ID from ITS.file name ###
 
       subjID <- ITS.file %>%
         strsplit(split = ".its") %>%
         unlist
+
+      message("
+Beginning file ", ITSfileNum, "/", length(ITS.files),
+" ", subjID, " at ", functionStartTime)
 
       ### Create Validation Table ###
 
@@ -547,12 +540,12 @@ ITS_to_seconds <-
         if (ITS.checks[, allRecsSameDay != TRUE]) {
 
           # create directory to store recording info
-          dir.create(paste0(CSV.dir, "recordings/"),
+          dir.create(paste0(CSV.dir, "multiday/"),
                      showWarnings = FALSE)
 
           fwrite(x = recordings.DF,
                  file =
-                   paste0(CSV.dir, "recordings/",
+                   paste0(CSV.dir, "multiday/",
                           subjID, "_ITS_recordings.csv"))
 
           processing.completed[, ":=" (
@@ -565,39 +558,22 @@ ITS_to_seconds <-
           if (write.centiseconds | write.seconds) {
             warning(
               sprintf(
-                "ERROR in %s:
+                "WARNING in %s:
         Not all recordings start on the same day.
-        All recordings in single ITS file must start
-        on same day to process centiseconds or seconds.
-        Review %s_ITS_Recordings.csv for erroneous
-        recording(s) & remove before reprocess.
+        On most computers, all recordings in single
+        ITS file must start on same day to process
+        centiseconds or seconds.
+        Review %s_ITS_Recordings.csv in folder 'multiday'.
+        Use `remove_recordings` to separate recordings
+        before reprocessing with `ITS_to_seconds`.
         If centiseconds and seconds are not desired,
         specify write.centiseconds = FALSE
         & write.seconds = FALSE to process with multiple
         recording days on single ITS file.
 
-        %s blocks/segments/centiseconds/seconds not processed.
+        %s centiseconds and/or seconds may not process.
                     ",
                 subjID, subjID, subjID))
-
-
-            completeFile()
-
-            # skip to next ITS file
-            next
-          }
-          else {
-            # if centiseconds & seconds not desired
-            # runs through segments, but throws warning
-            warning(
-              sprintf(
-                "WARNING in %s:
-        Not all recordings start on the same day.
-        Review %s_ITS_Recordings.csv for erroneous
-        recording(s). If centiseconds or seconds desired,
-        remove from ITS file before reprocess.
-                    ",
-                subjID, subjID))
           }}}
 
       processing.completed[, "recordings.processed" :=
@@ -609,7 +585,8 @@ ITS_to_seconds <-
 
         fwrite(x = recordings.DF,
                file =
-                 paste0(CSV.dir, "recordings/", subjID, "_ITS_recordings.csv"))
+                 paste0(CSV.dir, "recordings/", subjID,
+                        "_ITS_recordings.csv"))
 
         processing.completed[,
                              "recordings.written" :=
@@ -944,25 +921,12 @@ ITS_to_seconds <-
       ### Odd recording warnings ###
 
       # Does the recorder have >75% time silence/white noise?
-      ITS.checks[, "lessThan75pctSILNONF" :=
+      ITS.checks[, "pctSilenceAndNoise" :=
                    # time in silence or noise
-                   segments.DT[spkr %in% c("SIL", "NON", "NOF"),
-                               sum(endTime - startTime)] <
-                   # 75% total recording time
-                   segments.DT[, sum(endTime - startTime)*0.75]]
-
-      if (ITS.checks[, lessThan75pctSILNONF == FALSE]) {
-        warning(
-          sprintf("Warning in %s:
-                  silence/noise of %g hours.",
-                  subjID,
-                  # time in sil/noise
-                  segments.DT[spkr %in% c("SIL", "NON", "NOF"),
-                              round(
-                                # convert to hours
-                                sum(endTime - startTime)/3600,
-                                2)]))
-      }
+                   round(segments.DT[spkr %in% c("SIL", "NON", "NOF"),
+                               sum(endTime - startTime)] /
+                   # total recording time
+                   segments.DT[, sum(endTime - startTime)], 2)]
 
       # column names that can exist
       # any missing = odd file
@@ -1000,8 +964,8 @@ ITS_to_seconds <-
 
       # warning message with next steps
       if (ITS.checks[, allColumnsPresentInSegments != TRUE]) {
-        warning(
-          subjID, " segments does not contain all possible columns.
+        message(
+  subjID, " segments does not contain all possible columns.
   Filling missing columns with 0.")
 
         # create columns with 0
@@ -1036,9 +1000,15 @@ ITS_to_seconds <-
         missingSpkrs <-
           speakers[!speakers %in% speakersInSegs]
 
-        warning(subjID, " file missing speakers:
+        message(
+        subjID, " file missing speakers:
                 ", #extra line for easy reading in console
-                toString(missingSpkrs))
+        paste(missingSpkrs, collapse = ", "))
+
+        # include list of speakers missing
+        ITS.checks[,
+                   "missingSpeakers" :=
+                     paste(missingSpkrs, collapse = ", ")]
       }
 
 
@@ -1810,23 +1780,72 @@ ITS_to_seconds <-
 
                           # speakers
                           # speaker.freq
-                          "spkr" = speaker.freq(spkr),
-                          "MAN" = as.double(hablar::sum_(MAN, ignore_na = TRUE)/100),
-                          "MAF" = as.double(hablar::sum_(MAF, ignore_na = TRUE)/100),
-                          "FAN" = as.double(hablar::sum_(FAN, ignore_na = TRUE)/100),
-                          "FAF" = as.double(hablar::sum_(FAF, ignore_na = TRUE)/100),
-                          "CHN" = as.double(hablar::sum_(CHN, ignore_na = TRUE)/100),
-                          "CHF" = as.double(hablar::sum_(CHF, ignore_na = TRUE)/100),
-                          "CXN" = as.double(hablar::sum_(CXN, ignore_na = TRUE)/100),
-                          "CXF" = as.double(hablar::sum_(CXF, ignore_na = TRUE)/100),
-                          "NON" = as.double(hablar::sum_(NON, ignore_na = TRUE)/100),
-                          "NOF" = as.double(hablar::sum_(NOF, ignore_na = TRUE)/100),
-                          "OLN" = as.double(hablar::sum_(OLN, ignore_na = TRUE)/100),
-                          "OLF" = as.double(hablar::sum_(OLF, ignore_na = TRUE)/100),
-                          "TVN" = as.double(hablar::sum_(TVN, ignore_na = TRUE)/100),
-                          "TVF" = as.double(hablar::sum_(TVF, ignore_na = TRUE)/100),
-                          "SIL" = as.double(hablar::sum_(SIL, ignore_na = TRUE)/100),
-                          "OFF" = as.double(hablar::sum_(OFF, ignore_na = TRUE)/100),
+                          "spkr" =
+                            speaker.freq(spkr),
+                          "MAN" =
+                            as.double(
+                              hablar::sum_(
+                                MAN, ignore_na = TRUE)/100),
+                          "MAF" =
+                            as.double(
+                              hablar::sum_(
+                                MAF, ignore_na = TRUE)/100),
+                          "FAN" =
+                            as.double(
+                              hablar::sum_(
+                                FAN, ignore_na = TRUE)/100),
+                          "FAF" =
+                            as.double(
+                              hablar::sum_(
+                                FAF, ignore_na = TRUE)/100),
+                          "CHN" =
+                            as.double(
+                              hablar::sum_(
+                                CHN, ignore_na = TRUE)/100),
+                          "CHF" =
+                            as.double(
+                              hablar::sum_(
+                                CHF, ignore_na = TRUE)/100),
+                          "CXN" =
+                            as.double(
+                              hablar::sum_(
+                                CXN, ignore_na = TRUE)/100),
+                          "CXF" =
+                            as.double(
+                              hablar::sum_(
+                                CXF, ignore_na = TRUE)/100),
+                          "NON" =
+                            as.double(
+                              hablar::sum_(
+                                NON, ignore_na = TRUE)/100),
+                          "NOF" =
+                            as.double(
+                              hablar::sum_(
+                                NOF, ignore_na = TRUE)/100),
+                          "OLN" =
+                            as.double(
+                              hablar::sum_(
+                                OLN, ignore_na = TRUE)/100),
+                          "OLF" =
+                            as.double(
+                              hablar::sum_(
+                                OLF, ignore_na = TRUE)/100),
+                          "TVN" =
+                            as.double(
+                              hablar::sum_(
+                                TVN, ignore_na = TRUE)/100),
+                          "TVF" =
+                            as.double(
+                              hablar::sum_(
+                                TVF, ignore_na = TRUE)/100),
+                          "SIL" =
+                            as.double(
+                              hablar::sum_(
+                                SIL, ignore_na = TRUE)/100),
+                          "OFF" =
+                            as.double(
+                              hablar::sum_(
+                                OFF, ignore_na = TRUE)/100),
 
                           # dateTime info
                           startclocklocal_secMidnight =
@@ -1845,10 +1864,13 @@ ITS_to_seconds <-
       seconds.DT[is.na(doubleSpkr), doubleSpkr := 0]
 
 
-      seconds.DT <- data.table(subjID  = subjID,
-                               seconds.DT,
-                               dateMidnight_epoch =
-                                 centiseconds.DT[, unique(dateMidnight_epoch)])
+      seconds.DT <-
+        data.table(subjID  = subjID,
+                   seconds.DT,
+                   dateMidnight_epoch =
+                     centiseconds.DT[,
+                                     unique(
+                                       dateMidnight_epoch)])
 
       ### Validation: Rows & Columns ###
 
@@ -1923,7 +1945,9 @@ ITS_to_seconds <-
                             .("anyFalse" =
                                 any(.SD == FALSE,
                                     na.rm = TRUE)),
-                            .SDcols = colnames(validation.allfiles[,!"subjID"]),
+                            .SDcols =
+                              colnames(
+                                validation.allfiles[,!"subjID"]),
                             by = "subjID"][
                               anyFalse == TRUE,
                               subjID]
@@ -1952,61 +1976,6 @@ ITS_to_seconds <-
 
     } else {
       message("No files failed script validation checks.")
-    }
-
-    ##### Check ITS Checks All Files #####
-
-    # columns with fails
-    colsHaveFail <-
-      (!ITS.checks.allfiles[,
-                            lapply(.SD, all, na.rm = TRUE),
-                            .SDcols =
-                              colnames(
-                                ITS.checks.allfiles[,!"subjID"])])
-
-    if (any(colsHaveFail)) {
-
-
-      ### Failed Subject IDs and columns ###
-
-      # subject IDs with fails
-      failedIDs <-
-        ITS.checks.allfiles[,
-                            .("anyFalse" =
-                                any(.SD == FALSE,
-                                    na.rm = TRUE)),
-                            .SDcols =
-                              colnames(ITS.checks.allfiles[,!"subjID"]),
-                            by = "subjID"][
-                              anyFalse == TRUE,
-                              subjID]
-
-
-
-      # names of columns with at least 1 fail
-      failCols <-
-        colnames(colsHaveFail)[colsHaveFail[1,]]
-
-      # table with only failed cols and subjects
-      oddFiles <-
-        ITS.checks.allfiles[subjID %in% failedIDs,
-                            c("subjID", failCols),
-                            with = FALSE]
-
-      rm(failCols, failedIDs, colsHaveFail)
-
-      # write failedChecks csv
-      fwrite(x = oddFiles,
-             file = paste0(CSV.dir, "OddFiles_",
-                           format(Sys.time(),
-                                  "%Y%m%d_%H%M%S"),
-                           ".csv"))
-
-      warning("Some ITS files failed checks.
-              See OddFiles CSV.")
-
-    } else {
-      message("No ITS files failed checks.")
     }
 
   }
