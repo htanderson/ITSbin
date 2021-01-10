@@ -1,6 +1,6 @@
 #' remove_recordings
 #'
-#' This function removes unwanted recordings from an ITS file and adjusts the recording start and end centisecond counts.
+#' This function removes specified recordings from an ITS file and adjusts the recording start and end centisecond counts.
 #' @param ITS.folder Directory (string) containing ITS files.
 #' @param ITS.file Single .its file to be altered
 #' @param remove.num Integer: Recording number(s) to be removed?
@@ -9,7 +9,7 @@
 #' @import xml2
 #' @export
 #' @examples
-#' removeRecds(
+#' remove_recordings(
 #' ITS.folder = "SERVER/ITS_Files/ITS",
 #' ITS.file = "subj001.its",
 #' remove.num = 1,
