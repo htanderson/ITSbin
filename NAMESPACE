@@ -2,6 +2,7 @@
 
 export(ITS_to_seconds)
 export(bin_seconds)
+export(check_multiday)
 export(remove_recordings)
 import(data.table)
 import(hablar)
