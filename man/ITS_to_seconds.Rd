@@ -16,13 +16,13 @@ ITS_to_seconds(
 )
 }
 \arguments{
-\item{ITS.dir}{Directory (string) containing ITS files. Default = working directory.}
+\item{ITS.dir}{Directory (string) containing ITS files.}
 
 \item{CSV.dir}{Directory (string) to store CSV files}
 
 \item{time.zone}{OS-specific character string for time zone. To use current system timezone, type "Sys.timezone()". For other options, run OlsonNames() for list.}
 
-\item{write.recordings}{Logical. Default = FALSE. Output a CSV containing ITS Recording-level information for each input ITS file.}
+\item{write.recordings}{Logical. Default = FALSE. Output a CSV containing ITS Recording-level information for each input ITS file. Note: The recordings CSV will *always* be written for any ITS files containing recordings which start on more than one day.}
 
 \item{write.blocks}{Logical. Default = FALSE. Output a CSV containing ITS Block-level information for each input ITS file.}
 
@@ -40,7 +40,7 @@ This function takes a folder containing LENA ITS files as input, imports Recordi
 
  *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
 
-IMPORTANT: This script cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. Such files will be noted and skipped.
+IMPORTANT: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is **strongly recommended** to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.
 }
 \examples{
 ITS_to_seconds(
