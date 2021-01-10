@@ -19,10 +19,10 @@ remove_recordings(ITS.folder, ITS.file, remove.num, before.keep)
 An its/xml file
 }
 \description{
-This function removes unwanted recordings from an ITS file and adjusts the recording start and end centisecond counts.
+This function removes specified recordings from an ITS file and adjusts the recording start and end centisecond counts.
 }
 \examples{
-removeRecds(
+remove_recordings(
 ITS.folder = "SERVER/ITS_Files/ITS",
 ITS.file = "subj001.its",
 remove.num = 1,
