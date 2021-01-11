@@ -423,20 +423,40 @@ check_multiday <-
       ### Check Recording Days ###
 
       ITS.checks[,
-                 # recording day longer than 36 hours?
                  ":=" (
-                   "recDayLessThan36hrs" =
+                   # how long is recording day
+                   "recDayDurationHours" =
                      recordings.DF[.N,
-                                   endclocklocal_secMidnight] <
-                     129600,
+                                   endclocklocal_secMidnight] %>%
+                     lubridate::seconds_to_period() %>%
+                     {sprintf('%02d:%02d:%05.2f',
+                              lubridate::hour(x = .)+
+                                (lubridate::day(x = .) * 24),
+                              lubridate::minute(x = .),
+                              lubridate::second(x = .)
+                     )},
 
                    # at least 4 hours continuous
-                   "min4hrsContinuous" =
-                     recordings.DF[, max(recDur) >= 14400],
+                   "continuousRecordingTime" =
+                     recordings.DF[, max(recDur) %>%
+                                     lubridate::seconds_to_period() %>%
+                                     {sprintf('%02d:%02d:%05.2f',
+                                              lubridate::hour(x = .)+
+                                                (lubridate::day(x = .) * 24),
+                                              lubridate::minute(x = .),
+                                              lubridate::second(x = .)
+                                     )}],
 
                    # at least 10 hours of recording
-                   "min10hrsTotal" =
-                     recordings.DF[, sum(recDur) >= 36000])]
+                   "totalRecordingTime" =
+                     recordings.DF[, sum(recDur) %>%
+                                     lubridate::seconds_to_period() %>%
+                                     {sprintf('%02d:%02d:%05.2f',
+                                              lubridate::hour(x = .)+
+                                                (lubridate::day(x = .) * 24),
+                                              lubridate::minute(x = .),
+                                              lubridate::second(x = .)
+                                     )}])]
 
 
       # All recordings start on the same day?
