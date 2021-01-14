@@ -29,3 +29,19 @@ This package has 4 functions intended to be run in order.
 
 The functions `check_multiday`, `ITS_to_seconds`, & `bin_seconds` run over all relevant files in an entire folder, while the function `remove_recordings` runs over 1 `.its` file at a time.
 
+## Help Files
+
+Most help files can be accessed within R by typing ?functionname, eg
+
+```r
+?ITS_bin::ITS_to_seconds
+?bin_seconds
+```
+
+For detailed explanations of the column names of each output file, see below links.
+
+[ITS_checks][ITS_checks] Column name explanations for ITS_checks.csv output from check_multiday & ITS_to_seconds.
+
+[Validation][Validation] ITS_to_seconds Script Validation Column Names
+
+[ITS_checks]: /helpfiles/ITS_checks_colnames.md
