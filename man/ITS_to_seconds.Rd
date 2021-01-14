@@ -33,7 +33,7 @@ ITS_to_seconds(
 \item{write.seconds}{Logical. Default = TRUE. Output a CSV containing second-level information for each input ITS file. Output file contains 1 row per second in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). This file is required for all downstream binning functions.}
 }
 \value{
-Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 function validation, 1 ITS file checks, and 1 tracking file per run. If any files fail validation or ITS file checks, additional tracking CSV output per run (ValidationFails.csv and/or OddFiles.csv)
+Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 function validation, 1 ITS file checks, and 1 tracking file per run. If any files fail validation, additional tracking CSV output per run (ValidationFails.csv)
 }
 \description{
 This function takes a folder containing LENA ITS files as input, imports Recordings, Blocks, and Segments (uninterrupted human-created sounds, electronic noise, or silence) from each ITS file, converts them into dataframes, then adds time from desired time zone in clocktime and seconds from midnight. Files are expanded from 1 row per segment to 1 row per centisecond, then collapsed to 1 row per second (final output). Centiseconds & seconds files start at midnight the first day the recorder was turned on and end at either noon the following day or when the recorder was turned off for the last time, whichever is later.

@@ -281,11 +281,19 @@ check_multiday <-
         strsplit(split = ".its") %>%
         unlist
 
-      ### Create Validation Table ###
+      ### Create Validation Tables ###
 
-      validation <- data.table(subjID)
+      validation <-
+        data.table(subjID,
+                   recCols14 = NA,
+                   nrowsMaxRecId = NA)
 
-      ITS.checks <- data.table(subjID)
+      ITS.checks <-
+        data.table(subjID,
+                   recDayDurationHours = NA,
+                   continuousRecordingTime = NA,
+                   totalRecordingTime = NA,
+                   allRecsSameDay = NA)
 
       # start all false
       # update as completed

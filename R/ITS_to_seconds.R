@@ -14,7 +14,7 @@
 #' @param write.segments Logical. Default = FALSE. Output a CSV containing ITS Segment-level information for each input ITS file.
 #' @param write.centiseconds Logical. Default = FALSE. Output a CSV containing centisecond-level information for each input ITS file. Output file contains 1 row per centisecond in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). WARNING: These files are >2GB each.
 #' @param write.seconds Logical. Default = TRUE. Output a CSV containing second-level information for each input ITS file. Output file contains 1 row per second in the day, running from midnight the day the recorder was first turned on until either when the recorder was turned off or noon the following day (whichever is later). This file is required for all downstream binning functions.
-#' @return Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 function validation, 1 ITS file checks, and 1 tracking file per run. If any files fail validation or ITS file checks, additional tracking CSV output per run (ValidationFails.csv and/or OddFiles.csv)
+#' @return Specified number of CSVs per file input (recordings, blocks, segments, centiseconds, seconds). 1 function validation, 1 ITS file checks, and 1 tracking file per run. If any files fail validation, additional tracking CSV output per run (ValidationFails.csv)
 #' @import data.table
 #' @import xml2
 #' @import magrittr
@@ -354,9 +354,22 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
 
       ### Create Validation Table ###
 
-      validation <- data.table(subjID)
+      validation <-
+        data.table(subjID,
+                   recCols14 = NA,
+                   nrowsMaxRecId = NA)
 
-      ITS.checks <- data.table(subjID)
+      ITS.checks <-
+        data.table(subjID,
+                   recDayDurationHours = NA,
+                   continuousRecordingTime = NA,
+                   totalRecordingTime = NA,
+                   allRecsSameDay = NA,
+                   pctSilenceAndNoise = NA,
+                   allColumnsPresentInSegments = NA,
+                   missingSegmentColumns = NA,
+                   allSpeakersPresent = NA,
+                   missingSpkrs = NA)
 
       # start all false
       # update as completed
@@ -629,6 +642,12 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
       # skip blocks otherwise
       if (write.blocks) {
 
+        # pre-populate block validation
+        validation[, ":="
+                   (timesMatchEndToEnd.blks = NA,
+                    blockCols53 = NA,
+                    nrowsMaxBlkId = NA)]
+
         # set to NA for "started but not finished"
         processing.completed[,
                              blocks.processed := NA]
@@ -774,6 +793,12 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
       }
 
       ###### Segments ######
+
+      # pre-populate segments validation
+      validation[, ":="
+                 (timesMatchEndToEnd.segs = NA,
+                   segCols37p3ChildX4 = NA,
+                   segNrowMaxSegId = NA)]
 
       # set to NA for "started but not finished"
       processing.completed[,
@@ -991,7 +1016,7 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
         # create columns with 0
         segments.DT[, c(missingCols) := 0]
 
-        # list missing columns in validation
+        # list missing columns in ITS.checks
         ITS.checks[, "missingSegmentColumns" :=
                      toString(missingCols)]
 
@@ -1099,6 +1124,23 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
       }
 
       ##### Centiseconds #####
+
+      # pre-populate centiseconds validation
+
+      validation[, ":="
+                 (csecRecOnMatchSegments = NA,
+                  csecRecTimeStartAtZero = NA,
+                  csecRecTimeLastMatchSegs = NA,
+                  femAdultWordsSum = NA,
+                  malAdultWordsSum = NA,
+                  allAdultWordsSum = NA,
+                  fNonSpeechMatch = NA,
+                  mNonSpeechMatch = NA,
+                  childUttCntSumMatch = NA,
+                  childCryVfxSegsMatch = NA,
+                  convTurnMatchSegs = NA,
+                  csecRows36HrMin = NA,
+                  csec60Cols = NA)]
 
       # set to NA for "started but not finished"
       processing.completed[,
@@ -1711,10 +1753,15 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
 
       #### Seconds ####
 
+      # pre-populate seconds validation
+      validation[, ":="
+                 (rows36HrMin = NA,
+                  cols59 = NA)]
+
+
       # set to NA for "started but not finished"
       processing.completed[,
                            seconds.processed := NA]
-
 
       # create seconds data.table
       # **must specify data types for all
