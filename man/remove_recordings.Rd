@@ -4,27 +4,32 @@
 \alias{remove_recordings}
 \title{remove_recordings}
 \usage{
-remove_recordings(ITS.folder, ITS.file, remove.num, before.keep)
+remove_recordings(
+  ITS.folder,
+  ITS.file,
+  edited.ITS.folder,
+  recordings.to.remove
+)
 }
 \arguments{
 \item{ITS.folder}{Directory (string) containing ITS files.}
 
-\item{ITS.file}{Single .its file to be altered}
+\item{ITS.file}{Single .its file to be altered (string)}
 
-\item{remove.num}{Integer: Recording number(s) to be removed?}
+\item{edited.ITS.folder}{Directory (string) to store edited ITS file.}
 
-\item{before.keep}{Logical: Is/are the recording(s) to be removed before the recording(s) to be kept?}
+\item{recordings.to.remove}{Integer: Recording number(s) to be removed?}
 }
 \value{
 An its/xml file
 }
 \description{
-This function removes specified recordings from an ITS file and adjusts the recording start and end centisecond counts.
+This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
 }
 \examples{
 remove_recordings(
 ITS.folder = "SERVER/ITS_Files/ITS",
 ITS.file = "subj001.its",
-remove.num = 1,
-before.keep = TRUE)
+recordings.to.remove = 1)
+
 }

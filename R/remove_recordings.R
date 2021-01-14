@@ -1,30 +1,59 @@
 #' remove_recordings
 #'
-#' This function removes specified recordings from an ITS file and adjusts the recording start and end centisecond counts.
+#' This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
 #' @param ITS.folder Directory (string) containing ITS files.
-#' @param ITS.file Single .its file to be altered
-#' @param remove.num Integer: Recording number(s) to be removed?
-#' @param before.keep Logical: Is/are the recording(s) to be removed before the recording(s) to be kept?
+#' @param ITS.file Single .its file to be altered (string)
+#' @param edited.ITS.folder Directory (string) to store edited ITS file.
+#' @param recordings.to.remove Integer: Recording number(s) to be removed?
 #' @return An its/xml file
 #' @import xml2
+#' @import data.table
+#' @import magrittr
 #' @export
 #' @examples
 #' remove_recordings(
 #' ITS.folder = "SERVER/ITS_Files/ITS",
 #' ITS.file = "subj001.its",
-#' remove.num = 1,
-#' before.keep = TRUE)
+#' recordings.to.remove = 1)
+#'
 
 
 remove_recordings <-
   function(ITS.folder,
            ITS.file,
-           remove.num,
-           before.keep) {
+           edited.ITS.folder,
+           recordings.to.remove) {
+
+    ### add forward slash to directory names if missing
+
+    input.dirs <-
+      list("ITS.dir" = ITS.folder,
+           "edited.ITS.folder" = edited.ITS.folder)
+
+    endForwardSlash <-
+      # to maintain names, must pass
+      # names and objects separately
+      function(input.dir, nam) {
+        # if directory name doesn't
+        # end in forward slash
+        # add it
+        if (!endsWith(x = input.dir, suffix = "/")) {
+          assign(x = nam,
+                 value = paste0(input.dir, "/"),
+                 inherits = TRUE)
+        }
+      }
+
+    # use purrr::walk as for-loop/lapply substitute
+    # with no output
+    purrr::walk(.x = names(input.dirs),
+                .f = function(n) endForwardSlash(input.dirs[[n]], n))
+
+    rm(endForwardSlash)
 
     ### Create subject ID from ITS.file name ###
 
-    subjID <- ITS.file %>%
+    ITSfilename <- ITS.file %>%
       strsplit(split = ".its") %>%
       unlist
 
@@ -32,6 +61,38 @@ remove_recordings <-
       ITS.folder %>%
       paste0(ITS.file) %>%
       read_xml()
+
+    # Import ITS recordings as list
+    recordings.DF <-
+      its.object %>%
+      # Find only Recording paths directly under ProcessingUnit
+      # Some exist under//ProcessingUnit/Bar/Recording - not wanted
+      xml_find_all(xpath =  ".//ProcessingUnit/Recording") %>%
+      # Extract attributes (information) from Recording paths
+      xml_attrs() %>%
+      # Convert to data frame list
+      # NOTE: converting to data.table directly loses colnames
+      lapply(FUN = as.data.frame.list,
+             stringsAsFactors = FALSE) %>%
+      # rowbind dataframes to data.table
+      # fill = TRUE for unequal # of columns
+      rbindlist(fill = TRUE)
+
+    # convert to numeric
+    recordings.to.remove <-
+      as.numeric(recordings.to.remove)
+    recordings.DF[, "num" := as.numeric(num)]
+
+
+    # recording numbers to be kept
+     recordings.to.keep <-
+       recordings.DF$num[
+        !recordings.DF$num %in% recordings.to.remove]
+
+    # are all recordings to be removed
+    # before recordings to be kept?
+    before.keep <-
+      all(recordings.to.remove < recordings.to.keep)
 
     # ITS passed through function will be altered!
     # Not normal for R - you do NOT create a new object without the
@@ -43,14 +104,14 @@ remove_recordings <-
       xml_find_all(xpath = "//ProcessingUnit/Recording") %>%
       # select only those with desired recording number
       subset(x = .,
-             subset = xml_attr(., attr = "num") %in% remove.num) %>%
+             subset = xml_attr(., attr = "num") %in% recordings.to.remove) %>%
       # remove them from the xml ITS
       xml_remove(free = FALSE)
 
     if (before.keep == TRUE) {
 
-      message("This file will have many start & end Utt/Cry/Vfx# = 'NA'.
-          This is a side-effect of fixing the file, but should have
+      message("This file will have many start & end childUtt/Cry/Vfx# = 'NA'.
+          This is a side-effect of adjusting the times, but should have
           no impact on future use.")
 
       firstTime <-
@@ -231,18 +292,21 @@ remove_recordings <-
 
       confirmDF <- na.omit(confirmDF)
 
-      confirmDF$subjID <- subjID
+      confirmDF$ITSfilename <- ITSfilename
 
-      write.csv(confirmDF, file = paste0(subjID, "_newTimes.csv"))
+      write.csv(confirmDF, file = paste0(ITSfilename, "_newTimes.csv"))
 
     }
 
     # write new file
     write_xml(x = its.object,
-              file = paste0(subjID,
+              file = paste0(edited.ITS.folder,
+                            ITSfilename,
                             "_rec",
-                            paste0(remove.num, collapse = ""),
+                            paste0(recordings.to.remove, collapse = ""),
                             "removed.its"))
+
+    message(ITSfilename, " complete. Recording(s) ", paste0(recordings.to.remove, collapse = ", "), " removed. Recording(s) ", paste0(recordings.to.keep, collapse = ", "), " remain in ITS file. See ", paste0(ITSfilename, "_rec", paste0(recordings.to.remove, collapse = ""), "removed.its"))
 
 
   }
