@@ -40,11 +40,17 @@ Most help files can be accessed within R by typing ?functionname, eg
 
 For detailed explanations of the column names of each output file, see below links.
 
+Possible outputs for *each* input ITS file:
+[Recordings][Recordings]Explanations of column names from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
+
+
 [ITS_checks][ITS_checks] ITS_checks.csv output from check_multiday & ITS_to_seconds column name explanations
 
 [Validation][Validation] ITS_to_seconds Script Validation Column Name explanations
 
 [processing_completed][processing_completed] processing_completed.csv output from check_multiday & ITS_to_seconds column name explanations
+
+[Recordings]: /helpfiles/recordings_colnames.md
 
 [ITS_checks]: /helpfiles/ITS_checks_colnames.md
 
