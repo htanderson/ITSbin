@@ -408,6 +408,11 @@ check_multiday <-
                                lubridate::second(x = .)
                       )}]
 
+      # change names of start/end clocktime to UTC for clarity
+      setnames(x = recordings.DF,
+               old = c("startClockTime", "endClockTime"),
+               new = c("startClockTime_UTC", "endClockTime_UTC"))
+
       # convert remaining character cols to numeric as appropriate
       charCols <-
         names(dplyr::select_if(.tbl = recordings.DF, is.character))

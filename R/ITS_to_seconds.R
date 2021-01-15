@@ -480,6 +480,11 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                         as.numeric %>%
                         subtract(e2 = dateMidnight_epoch))]
 
+      # change names of start/end clocktime to UTC for clarity
+      setnames(x = recordings.DF,
+               old = c("startClockTime", "endClockTime"),
+               new = c("startClockTime_UTC", "endClockTime_UTC"))
+
       # Amount of time passed in full recording
       # Note, if time ends in 0 (eg 02:25:60),
       # Excel will format as numeric. Data is correct in DF and CSV.
