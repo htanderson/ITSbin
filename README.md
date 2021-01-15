@@ -40,8 +40,14 @@ Most help files can be accessed within R by typing ?functionname, eg
 
 For detailed explanations of the column names of each output file, see below links.
 
-[ITS_checks][ITS_checks] Column name explanations for ITS_checks.csv output from check_multiday & ITS_to_seconds.
+[ITS_checks][ITS_checks] ITS_checks.csv output from check_multiday & ITS_to_seconds column name explanations
 
-[Validation][Validation] ITS_to_seconds Script Validation Column Names
+[Validation][Validation] ITS_to_seconds Script Validation Column Name explanations
+
+[processing_completed][processing_completed] processing_completed.csv output from check_multiday & ITS_to_seconds column name explanations
 
 [ITS_checks]: /helpfiles/ITS_checks_colnames.md
+
+[Validation]: /helpfiles/Validation_colnames.md
+
+[processing_completed]: /helpfiles/processing_completed_colnames.md

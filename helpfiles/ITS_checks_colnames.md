@@ -1,4 +1,6 @@
-# Column name explanations for ITS_checks.csv output from check_multiday & ITS_to_seconds.
+# ITS_checks Column Names
+
+Column name explanations for ITS_checks.csv output from check_multiday & ITS_to_seconds.
 
 **subjID**: ITS file name. (*Future versions will separate ITS file name and ITS child ID.*)
 
