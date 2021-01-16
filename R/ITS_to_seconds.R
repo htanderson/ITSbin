@@ -693,9 +693,8 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                   .SDcols = timeCols]
 
         # convert to numeric or character as appropriate
-        blocks.DF <-
-          blocks.DF %>%
-          type.convert(as.is = TRUE)
+        blocks.DF[] <-
+          lapply(blocks.DF, type.convert, as.is = TRUE)
 
         ### Adding clock & secMidnight times ###
 
