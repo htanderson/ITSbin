@@ -499,7 +499,10 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
 
       # convert remaining character cols to numeric as appropriate
       charCols <-
-        names(dplyr::select_if(.tbl = recordings.DF, is.character))
+        names(
+          dplyr::select_if(
+            .tbl = recordings.DF,
+            .predicate = is.character))
 
       recordings.DF[,
                     (charCols) := lapply(.SD, type.convert, as.is = TRUE),
