@@ -249,7 +249,11 @@ bin_seconds <-
       seconds.DT[, ":=" (recRleid = rleid(recId))]
 
       # must drop AFTER doing rleid or doesn't group right
+<<<<<<< HEAD
       if (!is.null(subset.by.col) & isTRUE(drop.by.subset)) {
+=======
+      if (!is.null(subset.by.col) & drop.by.subset) {
+>>>>>>> 974c8688a60f15f61236d7ac2b438b01587c3e1d
         # cannot select with variable column name
         # must be set to specific name
         setnames(seconds.DT,
