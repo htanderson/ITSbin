@@ -22,4 +22,4 @@ Explanations of column names from ITS Recordings level .CSV files from `check_mu
 |recDur                     |numeric           |0+                 |seconds & centiseconds duration of this recording number                               |
 
 
-[Recordings_ColumnNames.csv]  /CSV_column_names/Recordings_ColumnNames.csv
+[Recordings_ColumnNames.csv]:  /CSV_column_names/Recordings_ColumnNames.csv
