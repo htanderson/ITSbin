@@ -7,13 +7,16 @@ Authors@R: c(
            role = c("cre", "aut"),
            email = "heathera@uoregon.edu",
            comment = c(github = "htanderson")),
+    person(given = "Jennifer K.",
+           family = "Mendoza",
+           role = c("ctb", "aut")),
+    person(given = "Andrea",
+           family = "Imhof",
+           role = c("ctb", "aut")),           
     person(given = "Caitlin M.",
            family = "Fausey",
            role = c("aut", "ths"),
-           email = "fausey@uoregon.edu"),
-    person(given = "Jennifer K.",
-           family = "Mendoza",
-           role = "ctb"))
+           email = "fausey@uoregon.edu"))
 Description: From the Language Environment Analysis System (LENA) 
   Iterative Time Segments (ITS) files, import information from 
   recordings, blocks, and segments, then orders information into 
@@ -24,7 +27,7 @@ License: What license it uses
 Encoding: UTF-8
 LazyData: true
 Depends: 
-  R (>= 3.4.3)
+  R (>= 3.6.1)
 Imports:
   data.table (>= 1.12.6),
   magrittr (>= 1.5),
