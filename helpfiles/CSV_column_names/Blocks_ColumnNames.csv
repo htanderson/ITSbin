@@ -1,0 +1,53 @@
+﻿Column Name,Data Type,Possible Values,Meaning
+subjID,character,,subject ID
+average_dB,numeric,any numeric (neg or positive),average decibels within block
+peak_dB,numeric,any numeric (neg or positive),peak decibels within block
+childCryVfxLen,numeric,0+,Total length of all child cry & nonspeech vocalization in block
+femaleAdultNonSpeechLen,numeric,0+,length in seconds of female adult nonspeech
+maleAdultNonSpeechLen,numeric,0+,length in seconds of male adult nonspeech
+TVF,numeric,0+,seconds in block that speaker was TVF
+FAN,numeric,0+,seconds in block that speaker was FAN
+OLN,numeric,0+,seconds in block that speaker was OLN
+SIL,numeric,0+,seconds in block that speaker was SIL
+NOF,numeric,0+,seconds in block that speaker was NOF
+CXF,numeric,0+,seconds in block that speaker was CXF
+OLF,numeric,0+,seconds in block that speaker was OLF
+CHF,numeric,0+,seconds in block that speaker was CHF
+MAF,numeric,0+,seconds in block that speaker was MAF
+TVN,numeric,0+,seconds in block that speaker was TVN
+NON,numeric,0+,seconds in block that speaker was NON
+CXN,numeric,0+,seconds in block that speaker was CXN
+CHN,numeric,0+,seconds in block that speaker was CHN
+MAN,numeric,0+,seconds in block that speaker was MAN
+FAF,numeric,0+,seconds in block that speaker was FAF
+startTime,numeric,0+,start time of segment; seconds since recorder on
+endTime,numeric,startTime+,end time of segment; seconds since recorder on
+recId,integer,1+,"recording number, consecutively counts up from 1"
+blkId,integer,1+,"block number (conversations/pauses), consecutively counts up from 1"
+blkTypeId,integer,1+,Consecutive conversation-pause pair
+blkType,character,"Conversation, Pause",
+type,character,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",codes for initiator and participants (same as convType in segments & secMidnight)
+turnTaking,numeric,0+,# turns in conversation
+femaleAdultInitiation,numeric,0+,# conversational turns initiated by female adult
+maleAdultInitiation,numeric,0+,# conversational turns initiated by male adult
+childResponse,numeric,0+,# conversational turns responded by child
+childInitiation,numeric,0+,# conversational turns initiated by child
+femaleAdultResponse,numeric,0+,# conversational turns responded by female adult
+maleAdultResponse,numeric,0+,# conversational turns responded by male adult
+adultWordCnt,numeric,0+,all adult words in block
+femaleAdultWordCnt,numeric,0+,female adult words in block
+maleAdultWordCnt,numeric,0+,male adult words in block
+femaleAdultUttCnt,numeric,,unsure - always 0
+maleAdultUttCnt,numeric,,unsure - always 0
+femaleAdultUttLen,numeric,,unsure - always 0
+maleAdultUttLen,numeric,,unsure - always 0
+childUttCnt,numeric,0+,child utterances in block
+childUttLen,numeric,0+,likely total length of all child speechlike sounds
+dateMidnight_epoch,integer,,recording day midnight epoch seconds from 1970-1-1 00:00:00
+startclocklocal_secMidnight,integer,0+,start time of recording in seconds from midnight
+recordingStart,numeric,0+,start time of recording in seconds from recording on
+startTimeSecMidnight,numeric,0+,start time of block; seconds from midnight
+endTimeSecMidnight,numeric,0+,end time of block; seconds from midnight
+startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime - PST
+endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime - PST
+recClockEnd,period,HH:MM:SS,end time of block; Time since recorder was turned on (easy to compare to WAV files)

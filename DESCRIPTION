@@ -22,7 +22,8 @@ Description: From the Language Environment Analysis System (LENA)
   recordings, blocks, and segments, then orders information into 
   centiseconds- and seconds-from-midnight (ITS_to_seconds). Bin into user-specified 
   minutes-from-midnight (bin_seconds). Remove unwanted recordings 
-  from ITS file (remove_recordings).
+  from ITS file (remove_recordings). 
+  See https://github.com/htanderson/ITSbin for full documentation.
 License: What license it uses
 Encoding: UTF-8
 LazyData: true

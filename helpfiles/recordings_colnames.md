@@ -2,6 +2,7 @@
 
 Explanations of column names from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
 
+[Recordings_ColumnNames.csv][Recordings_ColumnNames.csv] CSV of below information.
 
 |Column Name                |Data Type         |Possible Values      |Meaning                                                                                |
 |---------------------------|------------------|------------------------------------|---------------------------------------------------------------------------------------|
@@ -19,3 +20,6 @@ Explanations of column names from ITS Recordings level .CSV files from `check_mu
 |endclocklocal_secMidnight  |integer           |0+                 |end time of recording in seconds from midnight                                         |
 |recClockEnd                |period            |HH:MM:SS           |end time of recording; Time since recorder was turned on (easy to compare to WAV files)|
 |recDur                     |numeric           |0+                 |seconds & centiseconds duration of this recording number                               |
+
+
+[Recordings_ColumnNames.csv]  /CSV_column_names/Recordings_ColumnNames.csv
