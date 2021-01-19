@@ -42,16 +42,24 @@ For detailed explanations of the column names of each output file, see below lin
 
 Possible outputs for *each* input ITS file:
 
-[Recordings][Recordings] Explanations of column names from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
+[Recordings][Recordings] Explanations of column names and possible values from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
+
+[Blocks][Blocks] Explanations of column names and possible values from ITS Blocks level .CSV files from `ITS_to_seconds`.
+
+[Segments][Segments] Explanations of column names and possible values from ITS Segments level .CSV files from `ITS_to_seconds`. NOTE: Order of columns varies within each file, based on when sounds occurred during the recording.
 
 
-[ITS_checks][ITS_checks] ITS_checks.csv output from check_multiday & ITS_to_seconds column name explanations
 
-[Validation][Validation] ITS_to_seconds Script Validation Column Name explanations
+[ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations
 
-[processing_completed][processing_completed] processing_completed.csv output from check_multiday & ITS_to_seconds column name explanations
+[Validation][Validation] `ITS_to_seconds` Script Validation Column Name explanations
 
-[Recordings]: /helpfiles/recordings_colnames.md
+[processing_completed][processing_completed] processing_completed.csv output from check_multiday & `ITS_to_seconds` column name explanations
+
+
+[Recordings]: /helpfiles/Recordings_ColumnNames.csv
+[Blocks]: /helpfiles/Blocks_ColumnNames.csv
+[Segments]: /helpfiles/Segments_ColumnNames.csv
 
 [ITS_checks]: /helpfiles/ITS_checks_colnames.md
 

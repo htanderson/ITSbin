@@ -1,0 +1,53 @@
+﻿Column Name,Data Type,Possible Values,Meaning
+subjID,character,,ITS file name
+spkr,character,MAN MAF FAN FAF CHN CHF CXN CXF NON NOF OLN OLF TVN TVF SIL,speaker of segment
+average_dB,numeric,any numeric (neg or positive),average decibels within segment
+peak_dB,numeric,any numeric (neg or positive),peak decibels within segment
+recordingInfo,character,similar to: |BR|1|20160404|154613|,|begin/end recording|recording #|recording start date (UTC)|recording start time (UTC)|
+startTime,numeric,0+,start time of segment; seconds since recorder was first turned on
+endTime,numeric,startTime+,end time of segment; seconds since recorder was first turned on
+recId,integer,1+,"recording number, consecutively counts up from 1"
+blkId,integer,1+,"block number (conversations/pauses), consecutively counts up from 1"
+blkTypeId,integer,1+,Consecutive conversation-pause pair
+segId,integer,1+,Consecutive segment count
+blkType,character,"Conversation, Pause",Type of Block segment is within
+femaleAdultWordCnt,numeric,0+,female adult words in segment
+femaleAdultNonSpeechLen,numeric,0+,length in seconds of female adult nonspeech (same as length of segment when >0)
+femaleAdultUttCnt,numeric,,unsure - always 0
+femaleAdultUttLen,numeric,,unsure - always 0
+maleAdultWordCnt,numeric,0+,male adult words in segment
+maleAdultNonSpeechLen,numeric,0+,length in seconds of male adult nonspeech (same as length of segment when >0)
+maleAdultUttCnt,numeric,,unsure - always 0
+maleAdultUttLen,numeric,,unsure - always 0
+childUttCnt,numeric,0+,child utterances in segment
+childUttLen,numeric,0+,likely total length of all child speechlike sounds - ranges from 0 to double-digits; very very close to total of (endUtt#-startUtt#) for all utterances in segment
+childCryVfxLen,numeric,0+,Total length of all child cry & nonspeech vocalization in segment
+startUtt#,numeric,0+,start time of child utterance within segment; seconds from since recorder was first turned on; multiple possible per segment
+endUtt#,numeric,0+,end time of child utterance within segment; seconds from since recorder was first turned on; multiple possible per segment
+startVfx#,numeric,0+,start time of child nonspeech vocalization within segment; seconds since recorder was first turned on; multiple possible per segment
+endVfx#,numeric,0+,end time of child nonspeech vocalization within segment; seconds since recorder was first turned on; multiple possible per segment
+startCry#,numeric,0+,start time of child cry within segment; seconds from since recorder was first turned on; multiple possible per segment
+endCry#,numeric,0+,end time of child cry within segment; seconds from since recorder was first turned on; multiple possible per segment
+conversationInfo,character,similar to: |BC|1|0|0|AIOCF|NT|FI|,SEE BELOW COLUMNS FOR INTERPRETATION: |convStatus|convCount|convTurnCount|convResponseCount|convType|convTurnType|convFloorType|
+convStatus,character,"BC, RC, EC","in Conversation: beginning, running, end of block"
+convCount,integer,1+,"block number (conversations/pauses), consecutively counts up from 1"
+convTurnCount,integer,1+,Running Turn Count for recording
+convResponseCount,integer,1+,turn count within block
+convType,character,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",codes for initiator and participants
+convTurnType,character,"TIFI, TIMI, TIFR, TIMR, TIFE, TIME, NT","Turn type: (not sure what TI mean)  F = female, M = male, I = initiate, R = response"
+convFloorType,character,"FI, FH","Floor initiation, floor holding. FH = speaker continued from prior segment"
+dateMidnight_epoch,integer,,recording day midnight epoch seconds from 1970-1-1 00:00:00
+startclocklocal_secMidnight,integer,0+,start time of recording in seconds seconds since midnight on the first day the recorder was turned on
+recordingStart,numeric,0+,start time of recording in seconds since recorder was first turned on
+timezone,character,see OlsonNames(),timezone entered by user
+startTimeSecMidnight,numeric,0+,start time of segment; seconds since midnight on the first day the recorder was turned on
+endTimeSecMidnight,numeric,0+,end time of segment; seconds since midnight on the first day the recorder was turned on
+startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of segment; character format datetime in user-specified timezone
+endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of segment; character format datetime in user-specified timezone
+recClockEnd,period,HH:MM:SS,end time of segment; Time since recorder was first turned on (easy to compare to WAV files)
+startSecMidnightUtt#,numeric,0+,start time of child utterance within segment; seconds from midnight; multiple possible per segment
+endSecMidnightUtt#,numeric,0+,end time of child utterance within segment; seconds from midnight; multiple possible per segment
+startSecMidnightCry#,numeric,0+,start time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment
+endSecMidnightCry#,numeric,0+,end time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment
+startSecMidnightVfx#,numeric,0+,start time of child cry within segment; seconds from midnight; multiple possible per segment
+endSecMidnightVfx#,numeric,0+,end time of child cry within segment; seconds from midnight; multiple possible per segment

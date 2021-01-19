@@ -1,5 +1,5 @@
 ﻿Column Name,Data Type,Possible Values,Meaning
-subjID,character,,subject ID
+subjID,character,,ITS file name
 average_dB,numeric,any numeric (neg or positive),average decibels within block
 peak_dB,numeric,any numeric (neg or positive),peak decibels within block
 childCryVfxLen,numeric,0+,Total length of all child cry & nonspeech vocalization in block
@@ -42,12 +42,13 @@ maleAdultUttCnt,numeric,,unsure - always 0
 femaleAdultUttLen,numeric,,unsure - always 0
 maleAdultUttLen,numeric,,unsure - always 0
 childUttCnt,numeric,0+,child utterances in block
-childUttLen,numeric,0+,likely total length of all child speechlike sounds
+childUttLen,numeric,0+,total seconds of all child speechlike sounds in block
 dateMidnight_epoch,integer,,recording day midnight epoch seconds from 1970-1-1 00:00:00
-startclocklocal_secMidnight,integer,0+,start time of recording in seconds from midnight
+startclocklocal_secMidnight,integer,0+,start time of recording in seconds seconds since midnight on the first day the recorder was turned on
 recordingStart,numeric,0+,start time of recording in seconds from recording on
-startTimeSecMidnight,numeric,0+,start time of block; seconds from midnight
-endTimeSecMidnight,numeric,0+,end time of block; seconds from midnight
-startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime - PST
-endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime - PST
-recClockEnd,period,HH:MM:SS,end time of block; Time since recorder was turned on (easy to compare to WAV files)
+timezone,character,see OlsonNames(),timezone entered by user
+startTimeSecMidnight,numeric,0+,start time of block; seconds since midnight on the first day the recorder was turned on
+endTimeSecMidnight,numeric,0+,end time of block; seconds since midnight on the first day the recorder was turned on
+startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime in user-specified timezone
+endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of block; character format datetime in user-specified timezone
+recClockEnd,period,HH:MM:SS,end time of block; Time since recorder was first turned on (easy to compare to WAV files)
