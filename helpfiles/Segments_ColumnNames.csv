@@ -6,9 +6,9 @@ peak_dB,numeric,any numeric (neg or positive),peak decibels within segment
 recordingInfo,character,similar to: |BR|1|20160404|154613|,|begin/end recording|recording #|recording start date (UTC)|recording start time (UTC)|
 startTime,numeric,0+,start time of segment; seconds since recorder was first turned on
 endTime,numeric,startTime+,end time of segment; seconds since recorder was first turned on
-recId,integer,1+,"recording number, consecutively counts up from 1"
-blkId,integer,1+,"block number (conversations/pauses), consecutively counts up from 1"
-blkTypeId,integer,1+,Consecutive conversation-pause pair
+recId,integer,1+,"recording number, consecutively counts up from 1 each time the recorder is turned on. In files with multiple Recordings, the DLP/recorder was turned off and on again multiple times within the single ITS file."
+blkId,integer,1+,"block number (conversations/pauses), consecutively counts up from 1 after each conversation OR pause"
+blkTypeId,integer,1+,"Consecutive conversation-pause pair, consecutively counts up from 1 after each conversation AND pause (in either order)"
 segId,integer,1+,Consecutive segment count
 blkType,character,"Conversation, Pause",Type of Block segment is within
 femaleAdultWordCnt,numeric,0+,female adult words in segment
@@ -31,14 +31,15 @@ endCry#,numeric,0+,end time of child cry within segment; seconds from since reco
 conversationInfo,character,similar to: |BC|1|0|0|AIOCF|NT|FI|,SEE BELOW COLUMNS FOR INTERPRETATION: |convStatus|convCount|convTurnCount|convResponseCount|convType|convTurnType|convFloorType|
 convStatus,character,"BC, RC, EC","in Conversation: beginning, running, end of block"
 convCount,integer,1+,"block number (conversations/pauses), consecutively counts up from 1"
-convTurnCount,integer,1+,Running Turn Count for recording
+convTurnCount,integer,1+,Running Turn Count for recId
 convResponseCount,integer,1+,turn count within block
-convType,character,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",codes for initiator and participants
+convType,character,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, 
+AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",codes for initiator and participants
 convTurnType,character,"TIFI, TIMI, TIFR, TIMR, TIFE, TIME, NT","Turn type: (not sure what TI mean)  F = female, M = male, I = initiate, R = response"
 convFloorType,character,"FI, FH","Floor initiation, floor holding. FH = speaker continued from prior segment"
-dateMidnight_epoch,integer,,recording day midnight epoch seconds from 1970-1-1 00:00:00
-startclocklocal_secMidnight,integer,0+,start time of recording in seconds seconds since midnight on the first day the recorder was turned on
-recordingStart,numeric,0+,start time of recording in seconds since recorder was first turned on
+dateMidnight_epoch,integer,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+startclocklocal_secMidnight,integer,0+,start time of recId in seconds seconds since midnight on the first day the recorder was turned on
+recordingStart,numeric,0+,start time of recId in seconds since recorder was first turned on
 timezone,character,see OlsonNames(),timezone entered by user
 startTimeSecMidnight,numeric,0+,start time of segment; seconds since midnight on the first day the recorder was turned on
 endTimeSecMidnight,numeric,0+,end time of segment; seconds since midnight on the first day the recorder was turned on
@@ -47,7 +48,7 @@ endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of segment; char
 recClockEnd,period,HH:MM:SS,end time of segment; Time since recorder was first turned on (easy to compare to WAV files)
 startSecMidnightUtt#,numeric,0+,start time of child utterance within segment; seconds from midnight; multiple possible per segment
 endSecMidnightUtt#,numeric,0+,end time of child utterance within segment; seconds from midnight; multiple possible per segment
-startSecMidnightCry#,numeric,0+,start time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment
-endSecMidnightCry#,numeric,0+,end time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment
-startSecMidnightVfx#,numeric,0+,start time of child cry within segment; seconds from midnight; multiple possible per segment
-endSecMidnightVfx#,numeric,0+,end time of child cry within segment; seconds from midnight; multiple possible per segment
+startSecMidnightCry#,numeric,0+,start time of child cry within segment; seconds from midnight; multiple possible per segment
+endSecMidnightCry#,numeric,0+,end time of child cry within segment; seconds from midnight; multiple possible per segment
+startSecMidnightVfx#,numeric,0+,start time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment
+endSecMidnightVfx#,numeric,0+,end time of child nonspeech vocalization within segment; seconds from midnight; multiple possible per segment

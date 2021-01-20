@@ -1,15 +1,15 @@
 ﻿Column Name,Data Type,Possible Values,Meaning
 subjID,character,,ITS file name
-startClockTime_UTC,datetime/character,YYYY-MM-DDTHH:MM:SSZ,start time of recording; UTC
-endClockTime_UTC,datetime/character,YYYY-MM-DDTHH:MM:SSZ,end time of recording; UTC
-startTime,numeric,0+,start time of recording; seconds since recorder on
-endTime,numeric,startTime+,end time of recording; seconds since recorder on
-recId,integer,1+,"recording number, consecutively counts up from 1"
+startClockTime_UTC,datetime/character,YYYY-MM-DDTHH:MM:SSZ,start time of recId; UTC
+endClockTime_UTC,datetime/character,YYYY-MM-DDTHH:MM:SSZ,end time of recId; UTC
+startTime,numeric,0+,start time of recId; seconds since recorder on
+endTime,numeric,startTime+,end time of recId; seconds since recorder on
+recId,integer,1+,"recording number, consecutively counts up from 1 each time the recorder is turned on. In files with multiple Recordings, the DLP/recorder was turned off and on again multiple times within the single ITS file."
 timezone,character,see OlsonNames(),timezone entered by user
-startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of recording in user-specified timezone
-endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of recording in user-specified timezone
-dateMidnight_epoch,integer,,recording day midnight epoch seconds from 1970-1-1 00:00:00
-startclocklocal_secMidnight,integer,0+,start time of recording in seconds from midnight
-endclocklocal_secMidnight,integer,0+,end time of recording in seconds from midnight
-recClockEnd,period,HH:MM:SS,end time of recording; Time since recorder was first turned on (easy to compare to WAV files)
-recDur,numeric,0+,seconds & centiseconds duration of this recording number
+startclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of recId in user-specified timezone
+endclocklocal,datetime/character,YYYY-MM-DD HH:MM:SS,start time of recId in user-specified timezone
+dateMidnight_epoch,integer,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+startclocklocal_secMidnight,integer,0+,start time of recId in seconds from midnight on day recorder was first turned on
+endclocklocal_secMidnight,integer,0+,end time of recId in seconds from midnight on day recorder was first turned on
+recClockEnd,period,HH:MM:SS,end time of recId; Time since recorder was first turned on (easy to compare to WAV files)
+recDur,numeric,0+,seconds & centiseconds duration of this recId

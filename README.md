@@ -46,8 +46,9 @@ Possible outputs for *each* input ITS file:
 
 [Blocks][Blocks] Explanations of column names and possible values from ITS Blocks level .CSV files from `ITS_to_seconds`.
 
-[Segments][Segments] Explanations of column names and possible values from ITS Segments level .CSV files from `ITS_to_seconds`. NOTE: Order of columns varies within each file, based on when sounds occurred during the recording.
+[Segments][Segments] Explanations of column names and possible values from ITS Segments level .CSV files from `ITS_to_seconds`. NOTE: Order and number of Segments columns varies within each file, based on when sounds occurred during the recording. Additionally, each segment can contain multiple child utterance, cry, and nonspeech vocalization columns.
 
+[Seconds][Seconds] Explanations of column names and possible values from Seconds .CSV files from `ITS_to_seconds` function.
 
 
 [ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations
@@ -60,6 +61,7 @@ Possible outputs for *each* input ITS file:
 [Recordings]: /helpfiles/Recordings_ColumnNames.csv
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv
 [Segments]: /helpfiles/Segments_ColumnNames.csv
+[Seconds]: /helpfiles/Seconds_ColumnNames.csv
 
 [ITS_checks]: /helpfiles/ITS_checks_colnames.md
 
