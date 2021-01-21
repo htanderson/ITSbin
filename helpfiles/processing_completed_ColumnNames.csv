@@ -1,0 +1,12 @@
+﻿Column Name,Meaning
+subjID,ITS file name. (Future versions will separate ITS file name and ITS child ID.)
+recordings.processed,Internal: Recordings level of .its file imported and converted into data.table.
+recordings.written,CSV of Recordings level of .its file written to `CSV.dir`.
+blocks.processed,Internal: Conversation & Pause Blocks level of .its file imported and converted into data.table.
+blocks.written,CSV of Conversation & Pause Blocks level of .its file written to `CSV.dir`.
+segments.processed,Internal: Segments level of .its file imported and converted into data.table.
+segments.written,CSV of Segments level of .its file written to `CSV.dir`.
+centiseconds.processed,"Internal: Segments data expanded to 1 row per centisecond of the day, starting from midnight the day the recorder was first turned on."
+centiseconds.written,CSV of centiseconds data.table written to `CSV.dir`.
+seconds.processed,"Internal: Centiseconds collapsed into seconds of day by calculating over 100 rows at a time, starting from midnight the day the recorder was first turned on."
+seconds.written,CSV of seconds data.table written to `CSV.dir`.

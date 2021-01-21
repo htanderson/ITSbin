@@ -1,0 +1,24 @@
+﻿Column Name,Relevant Section,Meaning
+recCols14 ,ITS Recordings,Does the Recordings data.table have 14 columns?
+nrowsMaxRecId ,ITS Recordings,Does the Recordings data.table have the same number of rows as the number of Recordings in the `.its` file?
+timesMatchEndToEnd.blks ,ITS Blocks,"Within each recording, does the end time (seconds-since-midnight) of each row (Block) match the start time of the next row?"
+blockCols53 ,ITS Blocks,Does the Blocks data.table have 53 columns?
+nrowsMaxBlkId ,ITS Blocks,Does the Blocks data.table have the same number of rows as the number of Blocks in the `.its` file?
+timesMatchEndToEnd.segs ,ITS Segments,"Within each recording, does the end time (seconds-since-midnight) of each row (Segment) match the start time of the next row?"
+segCols37p3ChildX4 ,ITS Segments,"Does the Segments data.table have 37 columns, plus (3 + (number of child cry/vfx/utt columns) * 4)? If there are *no* sounds from the target child in the file, expect 37 columns."
+segNrowMaxSegId ,ITS Segments,Does the Segments data.table have the same number of rows as the number of Segments in the `.its` file?
+csecRecOnMatchSegments ,Centiseconds,Does the sum of centiseconds in the Segments data.table match the sum of centiseconds of recorder-on time in the Centiseconds data.table?
+csecRecTimeStartAtZero ,Centiseconds,"For the first row in which the recorder is on, is the value in the column `recTime` 0? (Aka, does the recorder clock start counting from 0?)"
+csecRecTimeLastMatchSegs ,Centiseconds,Does the last row of `recTime` in which the recorder was on in Centiseconds match the last `endTime` of Segments?
+femAdultWordsSum ,Centiseconds,Does the sum of `femaleAdultWordCnt` in Segments equal the sum of `femaleAdultWordCnt` in Centiseconds?
+malAdultWordsSum ,Centiseconds,Does the sum of `maleAdultWordCnt` in Segments equal the sum of `maleAdultWordCnt` in Centiseconds?
+allAdultWordsSum ,Centiseconds,Does the sum of (`femaleAdultWordCnt` + `maleAdultWordCnt`) in Segments equal the sum of `adultWordCnt` in Centiseconds?
+fNonSpeechMatch ,Centiseconds,Does the sum of `femaleAdultNonSpeechLen` in Segments equal the sum of `femaleAdultNonSpeech` in Centiseconds?
+mNonSpeechMatch ,Centiseconds,Does the sum of `maleAdultNonSpeechLen` in Segments equal the sum of `maleAdultNonSpeech` in Centiseconds?
+childUttCntSumMatch ,Centiseconds,Does the sum of `childUtt` in Segments equal the sum of `childUttCnt` in Centiseconds?
+childCryVfxSegsMatch ,Centiseconds,Does the sum of `childCryVfxLen` in Segments equal the sum of `childCry` + `childVfx` in Centiseconds?
+convTurnMatchSegs ,Centiseconds,Does the sum of `convTurnCount` in Segments equal the sum of `convTurnCount` in Centiseconds?
+csecRows36HrMin ,Centiseconds,"Does the Centiseconds data.table have *at least* 12,960,000 rows (at least 36 hours)."
+csec60Cols ,Centiseconds,Does the Centiseconds data.table have *exactly* 60 columns?
+secRows36HrMin,Seconds,"Does the Seconds data.table have *at least* 129,600 rows (at least 36 hours)."
+sec60Cols,Seconds,Does the Seconds data.table have *exactly* 60 columns?
