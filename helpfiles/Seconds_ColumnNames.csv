@@ -1,7 +1,7 @@
 ﻿Column Name,Data Type,ITS_or_calculated,Possible Values,ADEX equivalent column(s),Meaning
 subjID,character,ITS,,File_Name; ProcessingFile,ITS file name
 DayInSeconds,integer,calculated,0-129599,,seconds since midnight of day recorder was first turned on
-clockTime,period,calculated,00:00:00 - 35:59:59 (ideally),Clock_Time_TZAdj; Timestamp,Time since midnight on day recorder was first turned on
+clockTime,period,calculated,00:00:00 - 35:59:59 (ideally),Clock_Time_TZAdj; Timestamp,Time since midnight on day recorder was first turned on in user-specified timezone
 recTime,numeric,ITS,0-57599,,Cumulative sum of seconds recorder has been on
 recClock,period,calculated,00:00:00 - 15:59:59,,Time since recorder was turned on (easy to compare to WAV files)
 recOn,numeric,calculated,0-1,,proportion of second recorder was on
@@ -55,6 +55,6 @@ startclocklocal_secMidnight,integer,calculated,0+,,start time of recId in second
 timezone,character,user input,see OlsonNames(),,timezone entered by user
 recordingStart,numeric,calculated,0+,,start time of recId in seconds since the recorder was first turned on
 secMidnightDate,integer,calculated,epoch + DayInSeconds,,current epoch seconds from 1970-1-1 00:00:00
-dateTime,datetime/character,,YYYY-MM-DD HH:MM:SS,,character format datetime in user-specified timezone
+dateTime_UTC,datetime/character,,YYYY-MM-DD HH:MM:SS,,character format datetime in UTC
 doubleSpkr,integer,calculated,"0 = no, 1 = yes",,were there 2 speakers at exactly 0.5s each
 dateMidnight_epoch,integer,calculated,,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
