@@ -1636,7 +1636,7 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                         DayInSeconds + dateMidnight_epoch]
 
       # Datetime in local time (time.zone)
-      centiseconds.DT[, ("dateTime") :=
+      centiseconds.DT[, ("dateTime_UTC") :=
                         as.POSIXct(secMidnightDate,
                                    origin = "1970-1-1",
                                    tz = time.zone)]
@@ -1927,7 +1927,7 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                           timezone = first(timezone),
                           recordingStart = first(recordingStart),
                           secMidnightDate = first(secMidnightDate),
-                          dateTime = first(dateTime)
+                          dateTime_UTC = first(dateTime_UTC)
 
                         ),
                         # do each calculation for each day in seconds
@@ -1939,7 +1939,7 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
 
 
       seconds.DT <-
-        data.table(subjID  = subjID,
+        data.table(subjID = subjID,
                    seconds.DT,
                    dateMidnight_epoch =
                      centiseconds.DT[,
