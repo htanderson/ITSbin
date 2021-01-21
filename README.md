@@ -23,7 +23,7 @@ This package has 4 functions intended to be run in order.
 
 2. `remove_recordings` If `check_multiday` identified `.its` files with recordings which start on more than one day, use this function to separate those recordings into multiple `.its` files before running `ITS_to_seconds`
 
-3. `ITS_to_seconds` Takes in a LENA&trade; `.its` file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, & seconds-since-midnight.
+3. [`ITS_to_seconds`][`ITS_to_seconds`] Takes in a LENA&trade; `.its` file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, & seconds-since-midnight.
 
 4. `bin_seconds` Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, & subset data based on one column before binning.
 
@@ -53,18 +53,19 @@ Possible outputs for *each* input ITS file:
 
 [ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations
 
-[Validation][Validation] `ITS_to_seconds` Script Validation Column Name explanations
+[Validation][Validation] Column name explanations for ITS_script_validation.csv & ValidationFails.csv output from `ITS_to_seconds`. These columns indicate whether the `ITS_to_seconds` function ran as expected. Examples include checking whether each data.table has the expected number of columns and rows, and whether sums of values in the Segments data.table match the same sums of values in the Centiseconds data.table. Possible values for all columns are `TRUE` or `FALSE`. If a cell is `NA`, processing was started but not completed for that file. Levels that have been processed will have validation columns, whether or not they were output as CSV files.
 
-[processing_completed][processing_completed] processing_completed.csv output from check_multiday & `ITS_to_seconds` column name explanations
 
+[processing_completed][processing_completed] Column name explanations for processing_completed.csv output from `check_multiday` & `ITS_to_seconds`. The purpose of this CSV is to keep track of what has/has not been completed in a given run of `check_multiday` or `ITS_to_seconds`. `check_multiday` will only have the first 3 fields, while `ITS_to_seconds` will have all fields listed.
+
+
+[`ITS_to_seconds`]: /helpfiles/ITS_to_seconds_README.md
 
 [Recordings]: /helpfiles/Recordings_ColumnNames.csv
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv
 [Segments]: /helpfiles/Segments_ColumnNames.csv
 [Seconds]: /helpfiles/Seconds_ColumnNames.csv
 
-[ITS_checks]: /helpfiles/ITS_checks_colnames.md
-
-[Validation]: /helpfiles/Validation_colnames.md
-
-[processing_completed]: /helpfiles/processing_completed_colnames.md
+[ITS_checks]: /helpfiles/ITS_checks_ColumnNames.csv
+[Validation]: /helpfiles/validation_ColumnNames.csv
+[processing_completed]: /helpfiles/processing_completed_ColumnNames.csv
