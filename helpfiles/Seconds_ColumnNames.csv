@@ -16,8 +16,8 @@ segPeakdB,14,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level
 adultWordCnt,15,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
 femaleAdultWordCnt,16,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
 maleAdultWordCnt,17,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
-femaleAdultSpeech,18,numeric,ITS,0-1,,proportion of second containing female adult speech
-maleAdultSpeech,19,numeric,ITS,0-1,,proportion of second containing male adult speech
+femaleAdultSpeech,18,numeric,calculated,0-1,,proportion of second containing female adult speech
+maleAdultSpeech,19,numeric,calculated,0-1,,proportion of second containing male adult speech
 femaleAdultNonSpeech,20,numeric,ITS,0-1,FAN_NonVoc_Duration,proportion of second containing female adult nonspeech
 maleAdultNonSpeech,21,numeric,ITS,0-1,MAN_NonVoc_Duration,proportion of second containing male adult nonspeech
 childUttCnt,22,numeric,ITS,0+,Child_Voc_Count; CVC.Actual,child utterance count; calculated at first centisecond of each childUtt (consistent with ADEX)

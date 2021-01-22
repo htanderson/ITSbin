@@ -1,0 +1,57 @@
+﻿Column Name,Column Order,Data Type,ITS_or_calculated,Possible Values,ADEX equivalent column(s),Meaning
+subjID,,character,ITS,,File_Name; ProcessingFile,ITS file name
+DayInSecondsStart,,numeric,calculated,0-129599,,start time of row in seconds since midnight of day recorder was first turned on
+DayInSecondsEnd,,numeric,calculated,0-129599,,end time of row in seconds since midnight of day recorder was first turned on
+DayInSecondsDur,,numeric,calculated,0-129599,,Seconds in row
+clockTimeStart,,period,calculated,00:00:00 - 35:59:59 (ideally),,start time of row since midnight on day recorder was first turned on in user-specified timezone
+clockTimeEnd,,period,calculated,00:00:00 - 35:59:59 (ideally),,end time of row since midnight on day recorder was first turned on in user-specified timezone
+recTimeStart,,numeric,ITS,0-57599,,Cumulative sum of seconds recorder has been on - start of row
+recTimeEnd,,numeric,ITS,0-57599,,Cumulative sum of seconds recorder has been on - end of row
+recClockStart,,period,calculated,00:00:00 - 15:59:59.99,,"Time since recorder was turned on (easy to compare to WAV files) - start of row. If recorder turned on in this row, will be 00:00:00."
+recClockEnd,,period,calculated,00:00:00 - 15:59:59.99,,Time since recorder was turned on (easy to compare to WAV files) - end of row
+recOnSeconds,,numeric,calculated,0-57599,,seconds in row recorder was turned on
+recOnPeriod,,period,calculated,00:00:00 - 15:59:59.99,,clocktime duration recorder was turned on in row
+recIdStart,,integer,ITS,1+,,recId at DayInSecondsStart
+recIdEnd,,integer,ITS,1+,,recId at DayInSecondsEnd
+segAvgdB,,numeric,ITS,roughly -80 to 0,Average_SignalLevel,average decibel level of row
+segPeakdB,,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level of row
+adultWordCnt,,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
+femaleAdultWordCnt,,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
+maleAdultWordCnt,,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
+femaleAdultSpeechScnds,,numeric,calculated,0+,,seconds containing female adult speech
+maleAdultSpeechScnds,,numeric,calculated,0+,,seconds containing male adult speech
+femaleAdultNonspeechScnds,,numeric,ITS,0+,FAN_NonVoc_Duration,seconds containing female adult nonspeech
+maleAdultNonspeechScnds,,numeric,ITS,0+,MAN_NonVoc_Duration,seconds containing male adult nonspeech
+childUttCnt,,numeric,ITS,0+,Child_Voc_Count; CVC.Actual,child utterance count; calculated at first centisecond of each childUtt (consistent with ADEX)
+childUttLenScnds,,numeric,ITS,0+,Child_Voc_Duration,seconds containing child utterance; smoothed across utterances if break between utterances is exactly 300 centiseconds
+childUttScnds,,numeric,ITS,0+,,seconds containing child utterance
+childCryScnds,,numeric,ITS,0+,,seconds containing child cry
+childVfxScnds,,numeric,ITS,0+,,seconds containing child other vocalization
+convTurnCount,,integer,ITS,0+,Turn_Count; CTC.Actual,Conversational turn count; calculated at first centisecond of each ConvTurnRespond (consistent with ADEX)
+convTurnInitiateScnds,,numeric,ITS,0+,,seconds containing initiation of conversational turn (start speaker 1)
+convTurnRespondScnds,,numeric,ITS,0+,,seconds containing conversational turn response (start speaker 2); First second containing convTurnRespond is convTurnCount
+convTurnExtendScnds,,numeric,ITS,0+,,seconds containing conversational turn extended (start speaker 1 part 2); does NOT count as 2nd conversational turn
+MAN,,numeric,ITS,0+,MAN,seconds which speaker was MAN: Male Adult Near
+MAF,,numeric,ITS,0+,,seconds which speaker was MAF: Male Adult Faint
+FAN,,numeric,ITS,0+,FAN,seconds which speaker was FAN: Female Adult Near
+FAF,,numeric,ITS,0+,,seconds which speaker was FAF: Female Adult Faint
+CHN,,numeric,ITS,0+,CHN,seconds which speaker was CHN: target Child Near
+CHF,,numeric,ITS,0+,,seconds which speaker was CHF: target Child Faint
+CXN,,numeric,ITS,0+,CXN,seconds which speaker was CXN: other Child Near
+CXF,,numeric,ITS,0+,,seconds which speaker was CXF: other Child Faint
+NON,,numeric,ITS,0+,NON,seconds which speaker was NON: Noise Near
+NOF,,numeric,ITS,0+,,seconds which speaker was NOF: Noise Faint
+OLN,,numeric,ITS,0+,OLN,seconds which speaker was OLN: Overlap Near
+OLF,,numeric,ITS,0+,,seconds which speaker was OLF: Overlap Far
+TVN,,numeric,ITS,0+,TVN,seconds which speaker was TVN: Electronic/TV Near
+TVF,,numeric,ITS,0+,,seconds which speaker was TVF: Electronic/TV Faint
+SIL,,numeric,ITS,0+,SIL,seconds which speaker was SIL: Silence
+OFF,,numeric,calculated,0+,,seconds which speaker was OFF: DLP off
+roll.key,,integer,calculated,0 - roll.bin.by,,"IF ROLLING WINDOWS: Number of each roll. Eg, all 1's are sequential, all 2's are sequential, etc."
+timezone,,character,user input,see OlsonNames(),,timezone entered by user
+dateMidnight_epoch,,integer,calculated,,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+epochTimeStart,,integer,calculated,,,start time in epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+epochTimeEnd,,integer,calculated,,,end time in epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+dateTimeStart_UTC,,datetime/character,calculated,,,ISO format datetime in UTC start of row
+dateTimeEnd_UTC,,datetime/character,calculated,,,ISO format datetime in UTC end of row
+Bin.Mins,,integer,user input,,,bin.to.mins entered by user: number of minutes in each row
