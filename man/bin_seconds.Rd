@@ -43,9 +43,12 @@ This function imports standardized secMidnight files and bins them to specified 
 }
 \examples{
 \dontrun{
+
 bin_seconds(
 seconds.dir = "Server:/LENAData/secMidnight",
 output.dir = "Server:/LENAData/min1Midnight",
 bin.to.mins = 5,
-align.rows = "midnight")}
+align.rows = "midnight")
+
+}
 }

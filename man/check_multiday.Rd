@@ -33,8 +33,11 @@ For any ITS file containing more than one recording day, this function will outp
 }
 \examples{
 \dontrun{
+
 check_multiday(
 ITS.dir = "SERVER:/ITS_Files/",
 CSV.dir = "SERVER:/CSVOutput/",
-time.zone = "America/Los_Angeles")}
+time.zone = "America/Los_Angeles")
+
+}
 }

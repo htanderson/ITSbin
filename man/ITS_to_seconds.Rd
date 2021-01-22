@@ -44,8 +44,11 @@ This function takes a folder containing LENA ITS files as input, imports Recordi
 }
 \examples{
 \dontrun{
+
 ITS_to_seconds(
 ITS.dir = "SERVER:/ITS_Files/",
 CSV.dir = "SERVER:/CSVOutput/",
-time.zone = "America/Los_Angeles")}
+time.zone = "America/Los_Angeles")
+
+}
 }

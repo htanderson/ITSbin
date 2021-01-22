@@ -28,9 +28,12 @@ This function removes specified recordings from an ITS file, adjusts the recordi
 }
 \examples{
 \dontrun{
+
 remove_recordings(
 ITS.folder = "SERVER/ITS_Files/ITS",
 ITS.file = "subj001.its",
-recordings.to.remove = 1)}
+recordings.to.remove = 1)
+
+}
 
 }

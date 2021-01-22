@@ -11,18 +11,22 @@
 #' @param drop.by.subset Logical. If subset column is specified, should rows where subset.by.col == 0 be removed entirely (TRUE) or set to NA (FALSE)? To include only seconds when the recorder was turned on, set subset.by.col = "recOn" & drop.by.subset = TRUE.
 #' @param overwrite.existing Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will overwrite existing file.
 #' @return One CSV file per input seconds file.
-#' @examples
-#' \dontrun{
-#' bin_seconds(
-#' seconds.dir = "Server:/LENAData/secMidnight",
-#' output.dir = "Server:/LENAData/min1Midnight",
-#' bin.to.mins = 5,
-#' align.rows = "midnight")}
 #' @import data.table
 #' @import zoo
 #' @import magrittr
 #' @import hablar
 #' @export
+#' @examples
+#' \dontrun{
+#'
+#' bin_seconds(
+#' seconds.dir = "Server:/LENAData/secMidnight",
+#' output.dir = "Server:/LENAData/min1Midnight",
+#' bin.to.mins = 5,
+#' align.rows = "midnight")
+#'
+#' }
+
 
 bin_seconds <-
   function(

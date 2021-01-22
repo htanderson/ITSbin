@@ -21,10 +21,13 @@
 #' @export
 #' @examples
 #' \dontrun{
+#'
 #' ITS_to_seconds(
 #' ITS.dir = "SERVER:/ITS_Files/",
 #' CSV.dir = "SERVER:/CSVOutput/",
-#' time.zone = "America/Los_Angeles")}
+#' time.zone = "America/Los_Angeles")
+#'
+#' }
 
 ITS_to_seconds <-
   function(

@@ -17,10 +17,13 @@
 #' @export
 #' @examples
 #' \dontrun{
+#'
 #' check_multiday(
 #' ITS.dir = "SERVER:/ITS_Files/",
 #' CSV.dir = "SERVER:/CSVOutput/",
-#' time.zone = "America/Los_Angeles")}
+#' time.zone = "America/Los_Angeles")
+#'
+#' }
 
 check_multiday <-
   function(
