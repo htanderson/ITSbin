@@ -52,6 +52,8 @@ For detailed explanations of the column names of each output file, see below lin
 
 [Seconds][Seconds] Explanations of column names and possible values from Seconds .CSV files from `ITS_to_seconds` function.
 
+[Binned Seconds/Minutes][Binned Seconds/Minutes] Explanations of column names and possible values from binned seconds/minutes .CSV files from `bin_seconds` function.
+
 **Outputs from each `ITS_to_seconds` function run**
 
 [ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations

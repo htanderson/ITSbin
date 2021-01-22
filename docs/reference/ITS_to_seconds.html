@@ -42,7 +42,8 @@
 <meta property="og:title" content="ITS_to_seconds — ITS_to_seconds" />
 <meta property="og:description" content="This function takes a folder containing LENA ITS files as input, imports Recordings(recorder turned on &amp;amp; off), Blocks (Conversations &amp;amp; Pauses), and Segments (uninterrupted human-created sounds, electronic sounds, noise, or silence) from each ITS file, converts them into dataframes, then adds time from desired time zone in clocktime and seconds from midnight. Files are expanded from 1 row per segment to 1 row per centisecond, then collapsed to 1 row per second (final output). Centiseconds &amp;amp; seconds files start at midnight the first day the recorder was turned on and end at the later of noon the following day or when the recorder was turned off for the last time.
 *Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.
-**IMPORTANT**: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is *strongly recommended* to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing." />
+**IMPORTANT**: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is *strongly recommended* to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.
+For more information, including example outputs and explanations of all output columns, see https://htanderson.github.io/ITSbin/" />
 
 
 
@@ -114,6 +115,7 @@
     <p>This function takes a folder containing LENA ITS files as input, imports Recordings(recorder turned on &amp; off), Blocks (Conversations &amp; Pauses), and Segments (uninterrupted human-created sounds, electronic sounds, noise, or silence) from each ITS file, converts them into dataframes, then adds time from desired time zone in clocktime and seconds from midnight. Files are expanded from 1 row per segment to 1 row per centisecond, then collapsed to 1 row per second (final output). Centiseconds &amp; seconds files start at midnight the first day the recorder was turned on and end at the later of noon the following day or when the recorder was turned off for the last time.</p>
 <p>*Any existing output CSV files will be overwritten.* To avoid this, archive old files in separate folder.</p>
 <p>**IMPORTANT**: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is *strongly recommended* to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.</p>
+<p>For more information, including example outputs and explanations of all output columns, see <a href='https://htanderson.github.io/ITSbin/'>https://htanderson.github.io/ITSbin/</a></p>
     </div>
 
     <pre class="usage"><span class='fu'>ITS_to_seconds</span><span class='op'>(</span>

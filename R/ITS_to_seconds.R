@@ -6,6 +6,8 @@
 #'
 #' **IMPORTANT**: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is *strongly recommended* to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.
 #'
+#' For more information, including example outputs and explanations of all output columns, see \url{https://htanderson.github.io/ITSbin/}
+#'
 #' @param ITS.dir Directory (string) containing ITS files.
 #' @param CSV.dir Directory (string) to store CSV files
 #' @param time.zone OS-specific character string for time zone. To use current system timezone, type `Sys.timezone()`. For other options, run `OlsonNames()` for list.

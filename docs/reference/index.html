@@ -136,7 +136,15 @@
         <td>
           <p><code><a href="check_multiday.html">check_multiday()</a></code> </p>
         </td>
-        <td><p>check_multiday</p></td>
+        <td><p>check_multiday
+
+This function checks each ITS file in a folder to determine if each/any ITS file contains recordings which start on more than one day, based on the specified local `time.zone`. This happens when a family/user starts recording one one day, turns the recorder off, then turns the recorder on again on a later day.
+
+ For any ITS file containing more than one recording day, this function will output a CSV containing Recording-level information for the user to review. If any files contain more than one recording day, use the function `remove_recordings` to separate the recordings into multiple ITS files before passing the ITS files to the function `ITS_to_seconds`.
+
+  If desired, this function will also output the ITS Recording-level information for every input ITS file.
+
+For more information, including example outputs and explanations of all output columns, see <a href='https://htanderson.github.io/ITSbin/'>https://htanderson.github.io/ITSbin/</a></p></td>
       </tr><tr>
         
         <td>
@@ -148,7 +156,11 @@
         <td>
           <p><code><a href="remove_recordings.html">remove_recordings()</a></code> </p>
         </td>
-        <td><p>remove_recordings</p></td>
+        <td><p>remove_recordings
+
+This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
+
+For more information, including example outputs and explanations of all output columns, see <a href='https://htanderson.github.io/ITSbin/'>https://htanderson.github.io/ITSbin/</a></p></td>
       </tr>
     </tbody>
     </table>

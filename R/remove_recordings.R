@@ -1,6 +1,9 @@
-#' remove_recordings
+#' @title remove_recordings
 #'
 #' This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
+#'
+#' For more information, including example outputs and explanations of all output columns, see \url{https://htanderson.github.io/ITSbin/}
+#'
 #' @param ITS.folder Directory (string) containing ITS files.
 #' @param ITS.file Single .its file to be altered (string)
 #' @param edited.ITS.folder Directory (string) to store edited ITS file.
