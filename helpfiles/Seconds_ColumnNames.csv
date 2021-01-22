@@ -1,60 +1,61 @@
-﻿Column Name,Data Type,ITS_or_calculated,Possible Values,ADEX equivalent column(s),Meaning
-subjID,character,ITS,,File_Name; ProcessingFile,ITS file name
-DayInSeconds,integer,calculated,0-129599,,seconds since midnight of day recorder was first turned on
-clockTime,period,calculated,00:00:00 - 35:59:59 (ideally),Clock_Time_TZAdj; Timestamp,Time since midnight on day recorder was first turned on in user-specified timezone
-recTime,numeric,ITS,0-57599,,Cumulative sum of seconds recorder has been on
-recClock,period,calculated,00:00:00 - 15:59:59,,Time since recorder was turned on (easy to compare to WAV files)
-recOn,numeric,calculated,0-1,,proportion of second recorder was on
-recId,integer,ITS,1+,,"ITS Recording number, consecutively counts up from 1 (i.e., num of times recorder was turned on)"
-blkId,integer,ITS,1+,,"block number (conversations/pauses), consecutively counts up from 1"
-blkTypeId,integer,ITS,1+,,Consecutive conversation-pause pair
-blkType,character,ITS,"Conversation, Pause",,is the block a conversation or a pause?
-segId,integer,ITS,1+,,Consecutive segment count
-segAvgdB,numeric,ITS,roughly -80 to 0,Average_SignalLevel,average decibel level within segment segId
-segPeakdB,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level within segment segId
-adultWordCnt,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
-femaleAdultWordCnt,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
-maleAdultWordCnt,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
-femaleAdultSpeech,numeric,ITS,0-1,,proportion of second containing female adult speech
-maleAdultSpeech,numeric,ITS,0-1,,proportion of second containing male adult speech
-femaleAdultNonSpeech,numeric,ITS,0-1,FAN_NonVoc_Duration,proportion of second containing female adult nonspeech
-maleAdultNonSpeech,numeric,ITS,0-1,MAN_NonVoc_Duration,proportion of second containing male adult nonspeech
-childUttCnt,numeric,ITS,0+,Child_Voc_Count; CVC.Actual,child utterance count
-childUttLen,numeric,ITS,0+,Child_Voc_Duration,proportion of second containing child utterance; smoothed across utterances if break between utterances is exactly 300 centiseconds
-childUtt,numeric,ITS,0-1,,proportion of second containing child utterance
-childCry,numeric,ITS,0-1,,proportion of second containing child cry
-childVfx,numeric,ITS,0-1,,proportion of second containing child other vocalization
-convTurnCount,integer,ITS,0+,Turn_Count; CTC.Actual,Conversational turn count; calculated at first second containing ConvTurnRespond
-convTurnInitiate,integer,ITS,0-1,,proportion of second containing initiation of conversational turn (start speaker 1)
-convTurnRespond,integer,ITS,0-1,,proportion of second containing conversational turn response (start speaker 2); First second containing convTurnRespond is convTurnCount
-convTurnExtend,integer,ITS,0-1,,proportion of second containing conversational turn extended (start speaker 1 part 2); does NOT count as 2nd conversational turn
-conversationInfo,character,ITS,similar to: |BC|1|0|0|AIOCF|NT|FI|,,SEE BELOW COLUMNS FOR INTERPRETATION: |convStatus|convCount|convTurnCount|convResponseCount|convType|convTurnType|convFloorType|
-convStatus,character,ITS,"BC, RC, EC",,"in Conversation: beginning, running, end of block"
-convCount,integer,ITS,1+,,"conversation number, consecutively counts up from 1"
-convType,character,ITS,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",,codes for initiator and participants within Conversation block
-convTurnType,character,ITS,"TIFI, TIMI, TIFR, TIMR, TIFE, TIME, NT",,"Turn type: (not sure what ""TI"" means)  F = female, M = male, I = initiate, R = response"
-convFloorType,character,ITS,"FI, FH",,"Floor initiation, floor holding. FH = speaker continued from prior segment"
-spkr,character,calculated,MAN MAF FAN FAF CHN CHF CXN CXF NON NOF OLN OLF TVN TVF SIL OFF,,"dominant speaker in second; if both spkrs were half second, both concatenated (eg, NOFOLN)"
-MAN,numeric,ITS,0-1,MAN,proportion of second which speaker was MAN: Male Adult Near
-MAF,numeric,ITS,0-1,,proportion of second which speaker was MAF: Male Adult Faint
-FAN,numeric,ITS,0-1,FAN,proportion of second which speaker was FAN: Female Adult Near
-FAF,numeric,ITS,0-1,,proportion of second which speaker was FAF: Female Adult Faint
-CHN,numeric,ITS,0-1,CHN,proportion of second which speaker was CHN: target Child Near
-CHF,numeric,ITS,0-1,,proportion of second which speaker was CHF: target Child Faint
-CXN,numeric,ITS,0-1,CXN,proportion of second which speaker was CXN: other Child Near
-CXF,numeric,ITS,0-1,,proportion of second which speaker was CXF: other Child Faint
-NON,numeric,ITS,0-1,NON,proportion of second which speaker was NON: Noise Near
-NOF,numeric,ITS,0-1,,proportion of second which speaker was NOF: Noise Faint
-OLN,numeric,ITS,0-1,OLN,proportion of second which speaker was OLN: Overlap Near
-OLF,numeric,ITS,0-1,,proportion of second which speaker was OLF: Overlap Far
-TVN,numeric,ITS,0-1,TVN,proportion of second which speaker was TVN: Electronic/TV Near
-TVF,numeric,ITS,0-1,,proportion of second which speaker was TVF: Electronic/TV Faint
-SIL,numeric,ITS,0-1,SIL,proportion of second which speaker was SIL: Silence
-OFF,numeric,calculated,0-1,,proportion of second which speaker was OFF: DLP off
-startclocklocal_secMidnight,integer,calculated,0+,,start time of recId in seconds seconds since midnight on the first day the recorder was turned on
-timezone,character,user input,see OlsonNames(),,timezone entered by user
-recordingStart,numeric,calculated,0+,,start time of recId in seconds since the recorder was first turned on
-secMidnightDate,integer,calculated,epoch + DayInSeconds,,current epoch seconds from 1970-1-1 00:00:00
-dateTime_UTC,datetime/character,,YYYY-MM-DD HH:MM:SS,,character format datetime in UTC
-doubleSpkr,integer,calculated,"0 = no, 1 = yes",,were there 2 speakers at exactly 0.5s each
-dateMidnight_epoch,integer,calculated,,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on
+﻿Column Name,Column Order,Data Type,ITS_or_calculated,Possible Values,ADEX equivalent column(s),Meaning
+subjID,1,character,ITS,,File_Name; ProcessingFile,ITS file name
+DayInSeconds,2,integer,calculated,0-129599,,seconds since midnight of day recorder was first turned on
+clockTime,3,period,calculated,00:00:00 - 35:59:59 (ideally),Clock_Time_TZAdj; Timestamp,Time since midnight on day recorder was first turned on in user-specified timezone
+recTime,4,numeric,ITS,0-57599,,Cumulative sum of seconds recorder has been on
+recClock,5,period,calculated,00:00:00 - 15:59:59.99,,Time since recorder was turned on (easy to compare to WAV files)
+recOn,6,numeric,calculated,0-1,,proportion of second recorder was on
+recId,7,integer,ITS,1+,,"ITS Recording number, consecutively counts up from 1 (i.e., num of times recorder was turned on)"
+recordingInfo,8,character,ITS,similar to: |BR|1|20160404|154613|,,|begin/end recording|recording #|recording start date (UTC)|recording start time (UTC)|
+blkId,9,integer,ITS,1+,,"block number (conversations/pauses), consecutively counts up from 1"
+blkTypeId,10,integer,ITS,1+,,Consecutive conversation-pause pair
+blkType,11,character,ITS,"Conversation, Pause",,is the block a conversation or a pause?
+segId,12,integer,ITS,1+,,Consecutive segment count
+segAvgdB,13,numeric,ITS,roughly -80 to 0,Average_SignalLevel,average decibel level within segment segId
+segPeakdB,14,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level within segment segId
+adultWordCnt,15,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
+femaleAdultWordCnt,16,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
+maleAdultWordCnt,17,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
+femaleAdultSpeech,18,numeric,ITS,0-1,,proportion of second containing female adult speech
+maleAdultSpeech,19,numeric,ITS,0-1,,proportion of second containing male adult speech
+femaleAdultNonSpeech,20,numeric,ITS,0-1,FAN_NonVoc_Duration,proportion of second containing female adult nonspeech
+maleAdultNonSpeech,21,numeric,ITS,0-1,MAN_NonVoc_Duration,proportion of second containing male adult nonspeech
+childUttCnt,22,numeric,ITS,0+,Child_Voc_Count; CVC.Actual,child utterance count; calculated at first centisecond of each childUtt (consistent with ADEX)
+childUttLen,23,numeric,ITS,0+,Child_Voc_Duration,proportion of second containing child utterance; smoothed across utterances if break between utterances is exactly 300 centiseconds
+childUtt,24,numeric,ITS,0-1,,proportion of second containing child utterance
+childCry,25,numeric,ITS,0-1,,proportion of second containing child cry
+childVfx,26,numeric,ITS,0-1,,proportion of second containing child other vocalization
+convTurnCount,27,integer,ITS,0+,Turn_Count; CTC.Actual,Conversational turn count; calculated at first centisecond of each ConvTurnRespond (consistent with ADEX)
+convTurnInitiate,28,integer,ITS,0-1,,proportion of second containing initiation of conversational turn (start speaker 1)
+convTurnRespond,29,integer,ITS,0-1,,proportion of second containing conversational turn response (start speaker 2); First second containing convTurnRespond is convTurnCount
+convTurnExtend,30,integer,ITS,0-1,,proportion of second containing conversational turn extended (start speaker 1 part 2); does NOT count as 2nd conversational turn
+conversationInfo,31,character,ITS,similar to: |BC|1|0|0|AIOCF|NT|FI|,,SEE BELOW COLUMNS FOR INTERPRETATION: |convStatus|convCount|convTurnCount|convResponseCount|convType|convTurnType|convFloorType|
+convStatus,32,character,ITS,"BC, RC, EC",,"in Conversation: beginning, running, end of block"
+convCount,33,integer,ITS,1+,,"conversation number, consecutively counts up from 1"
+convType,34,character,ITS,"AMF, AIOCF, XM, CIC, AICF, XIOCA, AMM, CM, XIC, AICM, AIOCCXM, AIOCM, XIOCAC, CIOCX, CIOCAX, XIOCC, AIOCCXF",,codes for initiator and participants within Conversation block
+convTurnType,35,character,ITS,"TIFI, TIMI, TIFR, TIMR, TIFE, TIME, NT",,"Turn type: (not sure what ""TI"" means)  F = female, M = male, I = initiate, R = response"
+convFloorType,36,character,ITS,"FI, FH",,"Floor initiation, floor holding. FH = speaker continued from prior segment"
+spkr,37,character,calculated,MAN MAF FAN FAF CHN CHF CXN CXF NON NOF OLN OLF TVN TVF SIL OFF,,"dominant speaker in second; if both spkrs were half second, both concatenated (eg, NOFOLN)"
+MAN,38,numeric,ITS,0-1,MAN,proportion of second which speaker was MAN: Male Adult Near
+MAF,39,numeric,ITS,0-1,,proportion of second which speaker was MAF: Male Adult Faint
+FAN,40,numeric,ITS,0-1,FAN,proportion of second which speaker was FAN: Female Adult Near
+FAF,41,numeric,ITS,0-1,,proportion of second which speaker was FAF: Female Adult Faint
+CHN,42,numeric,ITS,0-1,CHN,proportion of second which speaker was CHN: target Child Near
+CHF,43,numeric,ITS,0-1,,proportion of second which speaker was CHF: target Child Faint
+CXN,44,numeric,ITS,0-1,CXN,proportion of second which speaker was CXN: other Child Near
+CXF,45,numeric,ITS,0-1,,proportion of second which speaker was CXF: other Child Faint
+NON,46,numeric,ITS,0-1,NON,proportion of second which speaker was NON: Noise Near
+NOF,47,numeric,ITS,0-1,,proportion of second which speaker was NOF: Noise Faint
+OLN,48,numeric,ITS,0-1,OLN,proportion of second which speaker was OLN: Overlap Near
+OLF,49,numeric,ITS,0-1,,proportion of second which speaker was OLF: Overlap Far
+TVN,50,numeric,ITS,0-1,TVN,proportion of second which speaker was TVN: Electronic/TV Near
+TVF,51,numeric,ITS,0-1,,proportion of second which speaker was TVF: Electronic/TV Faint
+SIL,52,numeric,ITS,0-1,SIL,proportion of second which speaker was SIL: Silence
+OFF,53,numeric,calculated,0-1,,proportion of second which speaker was OFF: DLP off
+startclocklocal_secMidnight,54,integer,calculated,0+,,start time of recId in seconds seconds since midnight on the first day the recorder was turned on
+timezone,55,character,user input,see OlsonNames(),,timezone entered by user
+recordingStart,56,numeric,calculated,0+,,start time of recId in seconds since the recorder was first turned on
+secMidnightDate,57,integer,calculated,dateMidnight_epoch + DayInSeconds,,current epoch seconds from 1970-1-1 00:00:00
+dateTime_UTC,58,datetime/character,,YYYY-MM-DDTHH:MM:SSZ,,ISO format datetime in UTC
+doubleSpkr,59,integer,calculated,"0 = no, 1 = yes",,were there 2 speakers at exactly 0.5s each
+dateMidnight_epoch,60,integer,calculated,,,midnight epoch seconds from 1970-1-1 00:00:00 on day recorder was first turned on

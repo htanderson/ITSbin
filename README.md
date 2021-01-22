@@ -40,7 +40,7 @@ Most help files can be accessed within R by typing ?functionname, eg
 
 For detailed explanations of the column names of each output file, see below links.
 
-Possible outputs for *each* input ITS file:
+**Possible outputs for *each* input ITS file:**
 
 [Recordings][Recordings] Explanations of column names and possible values from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
 
@@ -48,8 +48,11 @@ Possible outputs for *each* input ITS file:
 
 [Segments][Segments] Explanations of column names and possible values from ITS Segments level .CSV files from `ITS_to_seconds`. NOTE: Order and number of Segments columns varies within each file, based on when sounds occurred during the recording. Additionally, each segment can contain multiple child utterance, cry, and nonspeech vocalization columns.
 
+[Centiseconds][Centiseconds] Explanations of column names and possible values from Centiseconds .CSV files from `ITS_to_seconds` function.
+
 [Seconds][Seconds] Explanations of column names and possible values from Seconds .CSV files from `ITS_to_seconds` function.
 
+**Outputs from each `ITS_to_seconds` function run**
 
 [ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations
 
@@ -65,6 +68,7 @@ Possible outputs for *each* input ITS file:
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv
 [Segments]: /helpfiles/Segments_ColumnNames.csv
 [Seconds]: /helpfiles/Seconds_ColumnNames.csv
+[Centiseconds]: /helpfiles/Centiseconds_ColumnNames.csv
 
 [ITS_checks]: /helpfiles/ITS_checks_ColumnNames.csv
 [Validation]: /helpfiles/validation_ColumnNames.csv
