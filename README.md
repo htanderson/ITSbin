@@ -62,10 +62,10 @@ For detailed explanations of the column names of each output file, see below lin
 [processing_completed][processing_completed] Column name explanations for processing_completed.csv output from `check_multiday` & `ITS_to_seconds`. The purpose of this CSV is to keep track of what has/has not been completed in a given run of `check_multiday` or `ITS_to_seconds`. `check_multiday` will only have the first 3 fields, while `ITS_to_seconds` will have all fields listed.
 
 
-[`check_multiday`]: /reference/check_multiday.html
-[`remove_recordings`]: /reference/remove_recordings.html
-[`ITS_to_seconds`]: /reference/ITS_to_seconds.html
-[`bin_seconds`]: /reference/bin_seconds.html
+[`check_multiday`]: /docs/reference/check_multiday.html
+[`remove_recordings`]: /docs/reference/remove_recordings.html
+[`ITS_to_seconds`]: /docs/reference/ITS_to_seconds.html
+[`bin_seconds`]: /docs/reference/bin_seconds.html
 
 [Recordings]: /helpfiles/Recordings_ColumnNames.csv
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv
