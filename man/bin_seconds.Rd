@@ -42,9 +42,10 @@ One CSV file per input seconds file.
 This function imports standardized secMidnight files and bins them to specified minutes, starting from midnight.
 }
 \examples{
+\dontrun{
 bin_seconds(
 seconds.dir = "Server:/LENAData/secMidnight",
 output.dir = "Server:/LENAData/min1Midnight",
 bin.to.mins = 5,
-align.rows = "midnight")
+align.rows = "midnight")}
 }

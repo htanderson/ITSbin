@@ -11,10 +11,11 @@
 #' @import magrittr
 #' @export
 #' @examples
+#' \dontrun{
 #' remove_recordings(
 #' ITS.folder = "SERVER/ITS_Files/ITS",
 #' ITS.file = "subj001.its",
-#' recordings.to.remove = 1)
+#' recordings.to.remove = 1)}
 #'
 
 

@@ -17,15 +17,15 @@ If R asks to "install from packages requiring compilation", type `n`.
 
 This package has 4 functions intended to be run in order.
 
-1. `check_multiday` Checks whether LENA&trade; `.its` files have recordings which _start_ on more than one day and may be too long to process.
+1. [`check_multiday`][`check_multiday`] Checks whether LENA&trade; `.its` files have recordings which _start_ on more than one day and may be too long to process.
     
     This package cannot handle ITS files in which recordings *start* on more than one day, due to excessive memory (RAM) requirements (recordings that *span* multiple days are fine). If an ITS file has recordings which *start* on more than one day, the ITS_to_seconds script will not process this file and note which files have issues in `ITS_file_checks.csv`. The file `SUBJID_recordings.csv` will contain the list, dates, and times of recordings present in the ITS file.
 
-2. `remove_recordings` If `check_multiday` identified `.its` files with recordings which start on more than one day, use this function to separate those recordings into multiple `.its` files before running `ITS_to_seconds`
+2. [`remove_recordings`][`remove_recordings`] If `check_multiday` identified `.its` files with recordings which start on more than one day, use this function to separate those recordings into multiple `.its` files before running `ITS_to_seconds`
 
 3. [`ITS_to_seconds`][`ITS_to_seconds`] Takes in a LENA&trade; `.its` file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, & seconds-since-midnight.
 
-4. `bin_seconds` Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, & subset data based on one column before binning.
+4. [`bin_seconds`][`bin_seconds`] Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, & subset data based on one column before binning.
 
 The functions `check_multiday`, `ITS_to_seconds`, & `bin_seconds` run over all relevant files in an entire folder, while the function `remove_recordings` runs over 1 `.its` file at a time.
 
@@ -62,7 +62,10 @@ For detailed explanations of the column names of each output file, see below lin
 [processing_completed][processing_completed] Column name explanations for processing_completed.csv output from `check_multiday` & `ITS_to_seconds`. The purpose of this CSV is to keep track of what has/has not been completed in a given run of `check_multiday` or `ITS_to_seconds`. `check_multiday` will only have the first 3 fields, while `ITS_to_seconds` will have all fields listed.
 
 
-[`ITS_to_seconds`]: /helpfiles/ITS_to_seconds_README.md
+[`check_multiday`]: /reference/check_multiday.html
+[`remove_recordings`]: /reference/remove_recordings.html
+[`ITS_to_seconds`]: /reference/ITS_to_seconds.html
+[`bin_seconds`]: /reference/bin_seconds.html
 
 [Recordings]: /helpfiles/Recordings_ColumnNames.csv
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv

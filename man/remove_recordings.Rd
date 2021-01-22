@@ -27,9 +27,10 @@ An its/xml file
 This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
 }
 \examples{
+\dontrun{
 remove_recordings(
 ITS.folder = "SERVER/ITS_Files/ITS",
 ITS.file = "subj001.its",
-recordings.to.remove = 1)
+recordings.to.remove = 1)}
 
 }

@@ -32,8 +32,9 @@ For any ITS file containing more than one recording day, this function will outp
   If desired, this function will also output the ITS Recording-level information for every input ITS file.
 }
 \examples{
+\dontrun{
 check_multiday(
 ITS.dir = "SERVER:/ITS_Files/",
 CSV.dir = "SERVER:/CSVOutput/",
-time.zone = "America/Los_Angeles")
+time.zone = "America/Los_Angeles")}
 }

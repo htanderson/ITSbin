@@ -43,8 +43,9 @@ This function takes a folder containing LENA ITS files as input, imports Recordi
 **IMPORTANT**: On most computers, `ITS_to_seconds` cannot process ITS files with recordings which start on multiple days, due to excessive RAM requirements. It is *strongly recommended* to run the `check_multiday` function prior to running the `ITS_to_seconds` function to identify any ITS files that might be too long. Then, use the `remove_recordings` function to separate multi-day files for smooth processing.
 }
 \examples{
+\dontrun{
 ITS_to_seconds(
 ITS.dir = "SERVER:/ITS_Files/",
 CSV.dir = "SERVER:/CSVOutput/",
-time.zone = "America/Los_Angeles")
+time.zone = "America/Los_Angeles")}
 }

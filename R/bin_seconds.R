@@ -12,11 +12,12 @@
 #' @param overwrite.existing Logical. If the target file already exists, should the function overwrite it? If FALSE (default), subject will be skipped if file exists. If TRUE, new file will overwrite existing file.
 #' @return One CSV file per input seconds file.
 #' @examples
+#' \dontrun{
 #' bin_seconds(
 #' seconds.dir = "Server:/LENAData/secMidnight",
 #' output.dir = "Server:/LENAData/min1Midnight",
 #' bin.to.mins = 5,
-#' align.rows = "midnight")
+#' align.rows = "midnight")}
 #' @import data.table
 #' @import zoo
 #' @import magrittr
@@ -155,6 +156,9 @@ bin_seconds <-
 
     partial.bins <- TRUE
 
+    # keep track of number completed
+    secfileNum <- 0
+
     ###### read in file ######
     file.names <- dir(path = seconds.dir, pattern = ".csv")
 
@@ -162,6 +166,13 @@ bin_seconds <-
 
 
       functionStartTime <- Sys.time()
+
+
+      secfileNum <- secfileNum + 1
+
+      message("
+Beginning file ", secfileNum, "/", length(file.names),
+              " ", file.name, " at ", functionStartTime)
 
       seconds.DT <-
         data.table::fread(input = paste0(seconds.dir, file.name),
@@ -1091,12 +1102,12 @@ bin_seconds <-
       # recalculate datetime
       minutes.DT[, ":=" (
 
-        "dateTimeStart" =
+        "dateTimeStart_UTC" =
           as.POSIXct(epochTimeStart,
                      tz = unique(timezone),
                      origin = "1970-01-01"),
 
-        "dateTimeEnd" =
+        "dateTimeEnd_UTC" =
           as.POSIXct(epochTimeEnd,
                      tz = unique(timezone),
                      origin = "1970-01-01")
