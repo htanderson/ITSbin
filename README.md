@@ -74,6 +74,7 @@ For detailed explanations of the column names of each output file, see below lin
 [Segments]: /helpfiles/Segments_ColumnNames.csv
 [Seconds]: /helpfiles/Seconds_ColumnNames.csv
 [Centiseconds]: /helpfiles/Centiseconds_ColumnNames.csv
+[Binned Seconds/Minutes]: /helpfiles/Minutes_ColumnNames.csv
 
 [ITS_checks]: /helpfiles/ITS_checks_ColumnNames.csv
 [Validation]: /helpfiles/validation_ColumnNames.csv

@@ -1,6 +1,6 @@
 #' @title check_multiday
 #'
-#' This function checks each ITS file in a folder to determine if each/any ITS file contains recordings which start on more than one day, based on the specified local `time.zone`. This happens when a family/user starts recording one one day, turns the recorder off, then turns the recorder on again on a later day.
+#' @description This function checks each ITS file in a folder to determine if each/any ITS file contains recordings which start on more than one day, based on the specified local `time.zone`. This happens when a family/user starts recording one one day, turns the recorder off, then turns the recorder on again on a later day.
 #'
 #'  For any ITS file containing more than one recording day, this function will output a CSV containing Recording-level information for the user to review. If any files contain more than one recording day, use the function `remove_recordings` to separate the recordings into multiple ITS files before passing the ITS files to the function `ITS_to_seconds`.
 #'

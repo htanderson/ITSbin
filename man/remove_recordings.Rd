@@ -2,11 +2,7 @@
 % Please edit documentation in R/remove_recordings.R
 \name{remove_recordings}
 \alias{remove_recordings}
-\title{remove_recordings
-
-This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
-
-For more information, including example outputs and explanations of all output columns, see \url{https://htanderson.github.io/ITSbin/}}
+\title{remove_recordings}
 \usage{
 remove_recordings(
   ITS.folder,
@@ -28,8 +24,6 @@ remove_recordings(
 An its/xml file
 }
 \description{
-remove_recordings
-
 This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".
 
 For more information, including example outputs and explanations of all output columns, see \url{https://htanderson.github.io/ITSbin/}
