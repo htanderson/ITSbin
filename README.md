@@ -69,13 +69,13 @@ For detailed explanations of the column names of each output file, see below lin
 [`ITS_to_seconds`]: /docs/reference/ITS_to_seconds.html
 [`bin_seconds`]: /docs/reference/bin_seconds.html
 
-[Recordings]: /helpfiles/Recordings_ColumnNames.csv
-[Blocks]: /helpfiles/Blocks_ColumnNames.csv
-[Segments]: /helpfiles/Segments_ColumnNames.csv
-[Seconds]: /helpfiles/Seconds_ColumnNames.csv
-[Centiseconds]: /helpfiles/Centiseconds_ColumnNames.csv
-[Binned Seconds/Minutes]: /helpfiles/Minutes_ColumnNames.csv
+[Recordings]: /data/Recordings_ColumnNames.csv
+[Blocks]: /data/Blocks_ColumnNames.csv
+[Segments]: /data/Segments_ColumnNames.csv
+[Seconds]: /data/Seconds_ColumnNames.csv
+[Centiseconds]: /data/Centiseconds_ColumnNames.csv
+[Binned Seconds/Minutes]: /data/Minutes_ColumnNames.csv
 
-[ITS_checks]: /helpfiles/ITS_checks_ColumnNames.csv
-[Validation]: /helpfiles/validation_ColumnNames.csv
-[processing_completed]: /helpfiles/processing_completed_ColumnNames.csv
+[ITS_checks]: /data/ITS_checks_ColumnNames.csv
+[Validation]: /data/validation_ColumnNames.csv
+[processing_completed]: /data/processing_completed_ColumnNames.csv
