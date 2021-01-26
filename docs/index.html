@@ -52,6 +52,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/bin_seconds-options.html">bin_seconds-options</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -88,7 +100,7 @@
 </li>
 <li><p><a href="/docs/reference/remove_recordings.html"><code>remove_recordings</code></a> If <code>check_multiday</code> identified <code>.its</code> files with recordings which start on more than one day, use this function to separate those recordings into multiple <code>.its</code> files before running <code>ITS_to_seconds</code></p></li>
 <li><p><a href="/docs/reference/ITS_to_seconds.html"><code>ITS_to_seconds</code></a> Takes in a LENA™ <code>.its</code> file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, &amp; seconds-since-midnight.</p></li>
-<li><p><a href="/docs/reference/bin_seconds.html"><code>bin_seconds</code></a> Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, &amp; subset data based on one column before binning.</p></li>
+<li><p><a href="/docs/reference/bin_seconds.html"><code>bin_seconds</code></a> Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, &amp; subset data based on one column before binning. Detailed explanation &amp; examples of use: <a href="/docs/articles/bin_seconds-options.html">bin_seconds-options</a></p></li>
 </ol>
 <p>The functions <code>check_multiday</code>, <code>ITS_to_seconds</code>, &amp; <code>bin_seconds</code> run over all relevant files in an entire folder, while the function <code>remove_recordings</code> runs over 1 <code>.its</code> file at a time.</p>
 </div>
@@ -106,7 +118,7 @@
 <p><a href="/helpfiles/Segments_ColumnNames.csv">Segments</a> Explanations of column names and possible values from ITS Segments level .CSV files from <code>ITS_to_seconds</code>. NOTE: Order and number of Segments columns varies within each file, based on when sounds occurred during the recording. Additionally, each segment can contain multiple child utterance, cry, and nonspeech vocalization columns.</p>
 <p><a href="/helpfiles/Centiseconds_ColumnNames.csv">Centiseconds</a> Explanations of column names and possible values from Centiseconds .CSV files from <code>ITS_to_seconds</code> function.</p>
 <p><a href="/helpfiles/Seconds_ColumnNames.csv">Seconds</a> Explanations of column names and possible values from Seconds .CSV files from <code>ITS_to_seconds</code> function.</p>
-<p><a href="/helpfiles/Minutes_ColumnNames.csv">Binned Seconds/Minutes</a> Explanations of column names and possible values from binned seconds/minutes .CSV files from <code>bin_seconds</code> function.</p>
+<p><a href="/helpfiles/Minutes_ColumnNames.csv">Binned Seconds/Minutes</a> Explanations of column names and possible values from binned seconds/minutes .CSV files from <code>bin_seconds</code> function. Detailed explanation &amp; examples of use: <a href="/docs/articles/bin_seconds-options.html">bin_seconds-options</a></p>
 <p><strong>Outputs from each <code>ITS_to_seconds</code> function run</strong></p>
 <p><a href="/helpfiles/ITS_checks_ColumnNames.csv">ITS_checks</a> ITS_checks.csv output from <code>check_multiday</code> &amp; <code>ITS_to_seconds</code> column name explanations</p>
 <p><a href="/helpfiles/validation_ColumnNames.csv">Validation</a> Column name explanations for ITS_script_validation.csv &amp; ValidationFails.csv output from <code>ITS_to_seconds</code>. These columns indicate whether the <code>ITS_to_seconds</code> function ran as expected. Examples include checking whether each data.table has the expected number of columns and rows, and whether sums of values in the Segments data.table match the same sums of values in the Centiseconds data.table. Possible values for all columns are <code>TRUE</code> or <code>FALSE</code>. If a cell is <code>NA</code>, processing was started but not completed for that file. Levels that have been processed will have validation columns, whether or not they were output as CSV files.</p>

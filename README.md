@@ -25,7 +25,7 @@ This package has 4 functions intended to be run in order.
 
 3. [`ITS_to_seconds`][`ITS_to_seconds`] Takes in a LENA&trade; `.its` file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, & seconds-since-midnight.
 
-4. [`bin_seconds`][`bin_seconds`] Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, & subset data based on one column before binning.
+4. [`bin_seconds`][`bin_seconds`] Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, & subset data based on one column before binning. Detailed explanation & examples of use: [bin_seconds-options][bin_seconds-options]
 
 The functions `check_multiday`, `ITS_to_seconds`, & `bin_seconds` run over all relevant files in an entire folder, while the function `remove_recordings` runs over 1 `.its` file at a time.
 
@@ -52,7 +52,7 @@ For detailed explanations of the column names of each output file, see below lin
 
 [Seconds][Seconds] Explanations of column names and possible values from Seconds .CSV files from `ITS_to_seconds` function.
 
-[Binned Seconds/Minutes][Binned Seconds/Minutes] Explanations of column names and possible values from binned seconds/minutes .CSV files from `bin_seconds` function.
+[Binned Seconds/Minutes][Binned Seconds/Minutes] Explanations of column names and possible values from binned seconds/minutes .CSV files from `bin_seconds` function. Detailed explanation & examples of use: [bin_seconds-options][bin_seconds-options]
 
 **Outputs from each `ITS_to_seconds` function run**
 
@@ -68,6 +68,8 @@ For detailed explanations of the column names of each output file, see below lin
 [`remove_recordings`]: /docs/reference/remove_recordings.html
 [`ITS_to_seconds`]: /docs/reference/ITS_to_seconds.html
 [`bin_seconds`]: /docs/reference/bin_seconds.html
+[bin_seconds-options]: /docs/articles/bin_seconds-options.html
+
 
 [Recordings]: /helpfiles/Recordings_ColumnNames.csv
 [Blocks]: /helpfiles/Blocks_ColumnNames.csv

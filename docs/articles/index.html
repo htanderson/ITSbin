@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>remove_recordings — remove_recordings • ITSbin</title>
+<title>Articles • ITSbin</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,7 @@
 
 
 
-<meta property="og:title" content="remove_recordings — remove_recordings" />
-<meta property="og:description" content="This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name &quot;originalname_edited.its&quot;.
-For more information, including example outputs and explanations of all output columns, see https://htanderson.github.io/ITSbin/" />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -60,7 +58,7 @@ For more information, including example outputs and explanations of all output c
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -116,64 +114,18 @@ For more information, including example outputs and explanations of all output c
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>remove_recordings</h1>
-    
-    <div class="hidden name"><code>remove_recordings.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    <p>This function removes specified recordings from an ITS file, adjusts the recording start and end centisecond counts, then saves a NEW ITS file with the name "originalname_edited.its".</p>
-<p>For more information, including example outputs and explanations of all output columns, see <a href='https://htanderson.github.io/ITSbin/'>https://htanderson.github.io/ITSbin/</a></p>
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <dl>
+        <dt><a href="bin_seconds-options.html">bin_seconds-options</a></dt>
+        <dd></dt>
+      </dl>
     </div>
-
-    <pre class="usage"><span class='fu'>remove_recordings</span><span class='op'>(</span>
-  <span class='va'>ITS.folder</span>,
-  <span class='va'>ITS.file</span>,
-  <span class='va'>edited.ITS.folder</span>,
-  <span class='va'>recordings.to.remove</span>
-<span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ITS.folder</th>
-      <td><p>Directory (string) containing ITS files.</p></td>
-    </tr>
-    <tr>
-      <th>ITS.file</th>
-      <td><p>Single .its file to be altered (string)</p></td>
-    </tr>
-    <tr>
-      <th>edited.ITS.folder</th>
-      <td><p>Directory (string) to store edited ITS file.</p></td>
-    </tr>
-    <tr>
-      <th>recordings.to.remove</th>
-      <td><p>Integer: Recording number(s) to be removed?</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An its/xml file</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='fu'>remove_recordings</span><span class='op'>(</span>
-ITS.folder <span class='op'>=</span> <span class='st'>"SERVER/ITS_Files/ITS"</span>,
-ITS.file <span class='op'>=</span> <span class='st'>"subj001.its"</span>,
-recordings.to.remove <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='op'>}</span>
-
-</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <nav id="toc" data-toggle="toc" class="sticky-top">
-      <h2 data-toc-skip>Contents</h2>
-    </nav>
   </div>
 </div>
 

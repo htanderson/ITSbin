@@ -39,7 +39,7 @@ bin_seconds(
 One CSV file per input seconds file.
 }
 \description{
-This function imports standardized secMidnight files and bins them to specified minutes, starting from midnight.
+This function imports seconds files output from the `ITS_to_seconds` function and bins them to specified minutes, starting from midnight.
 
 For more information, including example outputs and explanations of all output columns, see \url{https://htanderson.github.io/ITSbin/}
 }
