@@ -1,6 +1,6 @@
 Package: ITSbin
 Title: Wrangle LENA ITS Files into Linear Seconds & Minutes
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person(given = "Heather T.",
            family = "Anderson",
