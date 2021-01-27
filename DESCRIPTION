@@ -1,6 +1,6 @@
 Package: ITSbin
 Title: Wrangle LENA ITS Files into Linear Seconds & Minutes
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person(given = "Heather T.",
            family = "Anderson",
@@ -32,7 +32,7 @@ Description: From the Language Environment Analysis System (LENA)
   minutes-from-midnight (bin_seconds). Remove unwanted recordings 
   from ITS file (remove_recordings). 
   See https://github.com/htanderson/ITSbin for full documentation.
-License: What license it uses
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
