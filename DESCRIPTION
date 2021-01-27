@@ -16,7 +16,15 @@ Authors@R: c(
     person(given = "Caitlin M.",
            family = "Fausey",
            role = c("aut", "ths"),
-           email = "fausey@uoregon.edu"))
+           email = "fausey@uoregon.edu"),
+    person(given = "Tristan",
+           family = "Mahr",
+           role = "ctb",
+           comment = c(github = "tjmahr")),
+    person(given = "Tobias",
+           family = "Busch",
+           role = "ctb",
+           comment = c(github = "Teebusch")))
 Description: From the Language Environment Analysis System (LENA) 
   Iterative Time Segments (ITS) files, import information from 
   recordings, blocks, and segments, then orders information into 
