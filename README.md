@@ -1,5 +1,7 @@
 # ITSbin
 
+[![DOI](https://zenodo.org/badge/319454155.svg)](https://zenodo.org/badge/latestdoi/319454155)
+
 This package takes LENA&trade; `.its` (Iterative Time Segments) files, extracts LENA&trade; automatic annotations, attaches real time, and outputs `.csv` files of recordings, conversation & pause blocks, segments, centiseconds, seconds and/or minutes. 
 
 ## Installation
