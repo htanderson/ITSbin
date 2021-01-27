@@ -13,9 +13,9 @@ blkType,11,character,ITS,"Conversation, Pause",,is the block a conversation or a
 segId,12,integer,ITS,1+,,Consecutive segment count
 segAvgdB,13,numeric,ITS,roughly -80 to 0,Average_SignalLevel,average decibel level within segment segId
 segPeakdB,14,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level within segment segId
-adultWordCnt,15,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
-femaleAdultWordCnt,16,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
-maleAdultWordCnt,17,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
+adultWordCnt,15,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt; ADEX rounds
+femaleAdultWordCnt,16,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words; ADEX rounds
+maleAdultWordCnt,17,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words; ADEX rounds
 femaleAdultSpeech,18,numeric,calculated,0-1,,proportion of second containing female adult speech
 maleAdultSpeech,19,numeric,calculated,0-1,,proportion of second containing male adult speech
 femaleAdultNonSpeech,20,numeric,ITS,0-1,FAN_NonVoc_Duration,proportion of second containing female adult nonspeech

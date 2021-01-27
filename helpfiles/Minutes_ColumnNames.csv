@@ -15,9 +15,9 @@ recIdStart,integer,ITS,1+,,recId at DayInSecondsStart
 recIdEnd,integer,ITS,1+,,recId at DayInSecondsEnd
 segAvgdB,numeric,ITS,roughly -80 to 0,Average_SignalLevel,average decibel level of row
 segPeakdB,numeric,ITS,roughly -80 to 0,Peak_SignalLevel,maximum decibel level of row
-adultWordCnt,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt
-femaleAdultWordCnt,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words
-maleAdultWordCnt,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words
+adultWordCnt,numeric,calculated,0+,AWC; AWC.Actual,femaleAdultWordCnt + maleAdultWordCnt; ADEX rounds
+femaleAdultWordCnt,numeric,ITS,0+,FAN_Word_Count,estimated number of female adult words; ADEX rounds
+maleAdultWordCnt,numeric,ITS,0+,MAN_Word_Count,estimated number of male adult words; ADEX rounds
 femaleAdultSpeechScnds,numeric,calculated,0+,,seconds containing female adult speech
 maleAdultSpeechScnds,numeric,calculated,0+,,seconds containing male adult speech
 femaleAdultNonspeechScnds,numeric,ITS,0+,FAN_NonVoc_Duration,seconds containing female adult nonspeech
