@@ -51,7 +51,7 @@ Imports:
   hablar (>= 0.3.0),
   zoo (>= 1.8.6),
   stringi (>= 1.4.3)
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown
