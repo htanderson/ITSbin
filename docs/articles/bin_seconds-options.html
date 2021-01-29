@@ -94,56 +94,117 @@
 <div id="align-rows-midnight-or-recorder-on" class="section level2">
 <h2 class="hasAnchor">
 <a href="#align-rows-midnight-or-recorder-on" class="anchor"></a>align.rows: midnight or recorder-on</h2>
-<p>Character. opts = c(“midnight”, “recorder-on”) Should the first bin start at midnight (00:00:00) the day the recorder was turned on (“midnight”) or the first second in which the recorder was on (“recorder-on”)</p>
+<p><code>align.rows</code> Character. opts = c(“midnight”, “recorder-on”) Should the first bin start at midnight (00:00:00) the day the recorder was turned on (“midnight”) or the first second in which the recorder was on (“recorder-on”)</p>
 <p>The first option to consider is whether your rows should align to midnight or align to when the recorder was first turned on.</p>
 <div id="align-rows-midnight" class="section level3">
 <h3 class="hasAnchor">
 <a href="#align-rows-midnight" class="anchor"></a><code>align.rows = "midnight"</code>
 </h3>
-<p>If you select “midnight” and bin to 180-minute bins (3 hours), the first row will run from 00:00:00.00 to 02:59:59.99, the second from 03:00:00.00 to 05:59:59.99, and so on. There will be empty rows before the recorder was turned on, which can be removed later by subsetting your dataset to <code>recOn &gt;0</code>. This option can be useful if you plan to align your data with other data sources, such as a diary log.</p>
+<p>This option can be useful if you plan to align your data with other data sources, such as a diary log.</p>
+<p>If you select “midnight” and bin to 180-minute bins (3 hours), the first row will run from 00:00:00.00 to 02:59:59.99, the second from 03:00:00.00 to 05:59:59.99, and so on. There will be empty rows before the recorder was turned on, which can be removed later by subsetting your dataset to <code>recOn &gt;0</code>.</p>
 <p><em>NOTE: This option is consistent with how ADEX bins data.</em></p>
 <div class="figure">
-<img src="useroptions_midnightseqCRTRUE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+<img src="bin_seconds-options/useroptions_midnightseqCRTRUE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
 </div>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_midnightseqCRTRUE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_midnightseqCRTRUE_dataframe_small.jpg"></a></p>
 </div>
 <div id="align-rows-recorder-on" class="section level3">
 <h3 class="hasAnchor">
 <a href="#align-rows-recorder-on" class="anchor"></a><code>align.rows = "recorder-on"</code>
 </h3>
-<p>If you select “recorder-on” and bin to 180-minute bins, the first row will encompass 180 minutes from whenever the recorder was first turned on. If the recorder was turned on at 8:23:19 am, then the first 2 rows would be 1) 8:23:19.00 to 11:23:18.99, 2) 11:23:19.00 to 14:23:18.99. This is desirable if your research question relies less on the specific time of day and more on using all available complete bins.</p>
-<div class="figure">
-<img src="useroptions_recorder-onseqCRTRUE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
-</div>
+<p>This option can be useful if your research question relies on using all available data without regard for time of day.</p>
+<p>If you select “recorder-on” and bin to 180-minute bins, the first row will encompass 180 minutes from whenever the recorder was first turned on. If the recorder was turned on at 8:23:19 am, then the first 2 rows would be 1) 8:23:19.00 to 11:23:18.99, 2) 11:23:19.00 to 14:23:18.99. <img src="bin_seconds-options/useroptions_recorder-onseqCRTRUE.jpg" alt="AdultWordCount in 1 full recording day"></p>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_recorder-onseqCRTRUE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_recorder-onseqCRTRUE_dataframe_small.jpg"></a></p>
 </div>
 </div>
 <div id="cross-recordings-true-or-false" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cross-recordings-true-or-false" class="anchor"></a>cross.recordings: TRUE or FALSE</h2>
-<p>Logical. Should bins be calculated across or within recordings? (default = TRUE)</p>
+<p><code>cross.recordings</code> Logical. Should bins be calculated across or within recordings? (default = TRUE)</p>
 <p>Should the function calculate across periods when the recorder was turned off and on again (<code>TRUE</code>) or separate bins whenever the recorder was turned off and on again within a bin (<code>FALSE</code>).</p>
 <p><em>NOTE: Some versions of ADEX calculate across recordings, while other versions separate recordings.</em></p>
 <p>The below images compare how cross.recordings is calculated, first with <code>align.rows = "midnight"</code>, then with <code>align.rows = "recorder-on"</code>.</p>
-<p>In the example .its file, the recorder was turned on and off a total of 4 times, resulting in 4 “Recordings”.</p>
+<p>In the example .its file, the recorder was turned on and off a total of 2 times, resulting in 2 “Recordings”.</p>
 <div id="align-rows-midnight-cross-recordings-true" class="section level3">
 <h3 class="hasAnchor">
 <a href="#align-rows-midnight-cross-recordings-true" class="anchor"></a><code>align.rows = "midnight"</code> &amp; <code>cross.recordings = TRUE</code>
 </h3>
-<p>If <code>cross.recordings = "TRUE"</code>, the bin_seconds function will effectively ignore periods when the recorder was turned off, and calculate across these. It does output the number of seconds the recorder was turned on/off during each bin, so the user still knows when there is an incomplete bin of recording time. The user will not know precisely when the recorder was turned on &amp; off if the recorder was turned off and back on again <em>within the same bin</em>. In the example below, during the 9am-12pm bin, the user would know how long the recorder had been on/off, with a single row summarizing the entire 9am-12pm period.</p>
+<p>If <code>cross.recordings = "TRUE"</code>, the bin_seconds function will effectively ignore periods when the recorder was turned off, and calculate across these. It does output the number of seconds the recorder was turned on/off during each bin, so the user still knows when there is an incomplete bin of recording time. The user will not know precisely when the recorder was turned on &amp; off if the recorder was turned off and back on again <em>within the same bin</em>. In the example below, during the 6pm-9pm bin, the user would know how long the recorder had been on/off, with a single row summarizing the entire 6pm-9pm period.</p>
 <div class="figure">
-<img src="useroptions_midnightseqCRTRUE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+<img src="bin_seconds-options/useroptions_midnightseqCRTRUE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
 </div>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_midnightseqCRTRUE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_midnightseqCRTRUE_dataframe_small.jpg"></a></p>
 </div>
 <div id="align-rows-midnight-cross-recordings-false" class="section level3">
 <h3 class="hasAnchor">
 <a href="#align-rows-midnight-cross-recordings-false" class="anchor"></a><code>align.rows = "midnight"</code> &amp; <code>cross.recordings = FALSE</code>
 </h3>
-<p>In the example below, during the 9am-12pm bin, the function would output 3 rows: 1 for the period of recording 1 within bin 2, 1 for the period the recorder was off during bin 2, and 1 for the period of recording 2 within bin 3. All rows/bins stay aligned to midnight. Either the start, end, or both the start and end of each row will be 180 minutes relative to midnight.</p>
+<p>In the example below, during the 6pm-9pm bin, the function would output 3 rows: 1 for the period of recording 1 within the 6pm-9pm bin, 1 for the period the recorder was off during the 6pm-9pm bin, and 1 for the period of recording 2 within the 6pm-9pm bin. All rows/bins stay aligned to midnight.</p>
 <div class="figure">
-<img src="useroptions_midnightseqCRFALSE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+<img src="bin_seconds-options/useroptions_midnightseqCRFALSE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
 </div>
-<p>roll.by.mins</p>
-<p>subset.by.column</p>
-<p>drop.by.subset</p>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_midnightseqCRFALSE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_midnightseqCRFALSE_dataframe_small.jpg"></a></p>
+</div>
+<div id="align-rows-recorder-on-cross-recordings-false" class="section level3">
+<h3 class="hasAnchor">
+<a href="#align-rows-recorder-on-cross-recordings-false" class="anchor"></a><code>align.rows = "recorder-on"</code> &amp; <code>cross.recordings = FALSE</code>
+</h3>
+<p>This option is equivalent to the above combination, except with the bin calculation beginning when the recorder was turned on. For <code>align.rows = "recorder-on"</code>, when the recorder is turned off and back on, the next row/bin will start when the recorder was turned on again without regard for either midnight or when the recorder was first turned on.</p>
+<div class="figure">
+<img src="bin_seconds-options/useroptions_recorder-onseqCRFALSE.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+</div>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_recorder-onseqCRFALSE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_recorder-onseqCRFALSE_dataframe_small.jpg"></a></p>
+</div>
+</div>
+<div id="rolling-windows" class="section level2">
+<h2 class="hasAnchor">
+<a href="#rolling-windows" class="anchor"></a>Rolling Windows</h2>
+<p><code>roll.by.mins</code> Numeric. Default = NULL (sequential bins, eg 0-59, 60-119) How many minutes between bins (or, do bins overlap?). Ex, if bin.to.mins = 60 &amp; roll.by.mins = 1, then 1st bin = minutes 0-59, 2nd bin = mins 1-60, 3rd = mins 2-61, etc.</p>
+<p>What if you are interested in finding what 3-hour window in each recording day contained the most adult words? In the first example (<code>align.rows = "midnight"</code>), this would be the 6-9pm window at 5200 words. However, if you calculated the maximum 3-hour word count by moving the calculation window by 1 hour throughout the day, the maximum window would be 5pm-8pm at 6300 words. The rolling windows option allows you to do this. See below for illustration &amp; example dataframe.</p>
+<div id="roll-by-mins-60" class="section level3">
+<h3 class="hasAnchor">
+<a href="#roll-by-mins-60" class="anchor"></a><code>roll.by.mins = 60</code>
+</h3>
+<div class="figure">
+<img src="bin_seconds-options/rolling%20windows_all_small.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+</div>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_midnightRW60CRTRUE_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_midnightRW60CRTRUE_dataframe_small.jpg"></a></p>
+</div>
+</div>
+<div id="subset-by-column" class="section level2">
+<h2 class="hasAnchor">
+<a href="#subset-by-column" class="anchor"></a>subset.by.column</h2>
+<p><code>subset.by.col</code> Character. Include only rows where this column is NOT 0 (default = NULL). To include only seconds when the recorder was turned on, set subset.by.col = “recOn” &amp; drop.by.subset = TRUE.</p>
+<p>The final option allows the user to select data based on a specific column. In the below example, the researcher has a diary log indicating when the child was at home or out of the home. A column “athome” is added to the EXAMPLE_sec.csv dataset, with 0 = “out of home” and 1 = “at home”. The researcher only wants to use data from when the child was at home, and this family indicated they were out of the home from 1pm-3pm.</p>
+<div class="figure">
+<img src="bin_seconds-options/useroptions_dropbycolumn.jpg" alt=""><p class="caption">AdultWordCount in 1 full recording day</p>
+</div>
+</div>
+<div id="drop-by-subset" class="section level2">
+<h2 class="hasAnchor">
+<a href="#drop-by-subset" class="anchor"></a>drop.by.subset</h2>
+<p><code>drop.by.subset</code> Logical. If subset column is specified, should rows where subset.by.col == 0 be removed entirely (TRUE) or set to NA (FALSE)? To include only seconds when the recorder was turned on, set subset.by.col = “recOn” &amp; drop.by.subset = TRUE.</p>
+<div id="drop-by-subset-false" class="section level3">
+<h3 class="hasAnchor">
+<a href="#drop-by-subset-false" class="anchor"></a><code>drop.by.subset = FALSE</code>
+</h3>
+<p>If the researcher wants to preserve the time information present in the full dataset, they should set <code>drop.by.subset = FALSE</code>. In this option, wherever “athome” = 0, the data will be set to NA, as though the recorder were simply not capturing data. See below for example data output.</p>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_dropbycolumn_NA_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_dropbycolumn_NA_dataframe_small.jpg"></a></p>
+</div>
+<div id="drop-by-subset-true" class="section level3">
+<h3 class="hasAnchor">
+<a href="#drop-by-subset-true" class="anchor"></a><code>drop.by.subset = TRUE</code>
+</h3>
+<p>If the researcher wants to remove that time entirely, they should select <code>drop.by.subset = TRUE</code>. The function will then drop all data where “athome” = 0 <em>before</em> calculating bins. See below for example data output.</p>
+<p><strong>Example data output - click to zoom:</strong></p>
+<p><a href="bin_seconds-options/useroptions_dropbycolumn_drop_dataframe_large.jpg"><img src="bin_seconds-options/useroptions_dropbycolumn_drop_dataframe_small.jpg"></a></p>
 </div>
 </div>
   </div>
