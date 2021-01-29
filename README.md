@@ -77,7 +77,7 @@ For the below outputs, one CSV will be output per *folder* run through [`ITS_to_
 [`check_multiday`]: https://htanderson.github.io/ITSbin/docs/reference/check_multiday.html
 [`remove_recordings`]: https://htanderson.github.io/ITSbin/docs/reference/remove_recordings.html
 [`ITS_to_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html
-[`bin_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html
+[`bin_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/bin_seconds.html
 [bin_seconds-options]: https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html
 
 

@@ -109,7 +109,7 @@
 </li>
 <li><p><a href="https://htanderson.github.io/ITSbin/docs/reference/remove_recordings.html"><code>remove_recordings</code></a> If <code>check_multiday</code> identified <code>.its</code> files with recordings which start on more than one day, use this function to separate those recordings into multiple <code>.its</code> files before running <code>ITS_to_seconds</code></p></li>
 <li><p><a href="https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html"><code>ITS_to_seconds</code></a> Takes in a LENA™ <code>.its</code> file and outputs user-specified CSV files of ITS recordings, ITS blocks, ITS segments, centiseconds-since-midnight, &amp; seconds-since-midnight.</p></li>
-<li><p><a href="https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html"><code>bin_seconds</code></a> Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, &amp; subset data based on one column before binning. Detailed explanation &amp; examples of use: <a href="https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html">bin_seconds-options</a></p></li>
+<li><p><a href="https://htanderson.github.io/ITSbin/docs/reference/bin_seconds.html"><code>bin_seconds</code></a> Takes files in seconds-since-midnight and flexibly bins them into user-defined minutes. Options include: bin to any integer of minutes, sequential or rolling windows, rows align to midnight or rows align to time recorder was first turned on, &amp; subset data based on one column before binning. Detailed explanation &amp; examples of use: <a href="https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html">bin_seconds-options</a></p></li>
 </ol>
 <p>The functions <code>check_multiday</code>, <code>ITS_to_seconds</code>, &amp; <code>bin_seconds</code> run over all relevant files in an entire folder, while the function <code>remove_recordings</code> runs over 1 <code>.its</code> file at a time.</p>
 </div>
@@ -135,7 +135,7 @@
 </div>
 <div id="bin_secondsbin_seconds" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bin_secondsbin_seconds" class="anchor"></a><a href="https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html"><code>bin_seconds</code></a>
+<a href="#bin_secondsbin_seconds" class="anchor"></a><a href="https://htanderson.github.io/ITSbin/docs/reference/bin_seconds.html"><code>bin_seconds</code></a>
 </h3>
 <p><a href="https://github.com/htanderson/ITSbin/blob/master/helpfiles/Minutes_ColumnNames.csv">Binned Seconds/Minutes</a> Explanations of column names and possible values from binned seconds/minutes .CSV files from <code>bin_seconds</code> function. Detailed explanation &amp; examples of use: <a href="https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html">bin_seconds-options</a></p>
 <p><strong>Outputs from each <code>ITS_to_seconds</code> function run</strong></p>
