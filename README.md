@@ -44,6 +44,10 @@ For detailed explanations of the column names of each output file, see below lin
 
 **Possible outputs for *each* input ITS file:**
 
+### [`ITS_to_seconds`][`ITS_to_seconds`]
+
+For *each* .its file run through `ITS_to_seconds`, you can choose to output any of the below CSV files. Of these, the Seconds option is necessary to bin to minutes through the `bin_seconds` function. The default is to output *only* the Seconds file.
+
 [Recordings][Recordings] Explanations of column names and possible values from ITS Recordings level .CSV files from `check_multiday` and `ITS_to_seconds`.
 
 [Blocks][Blocks] Explanations of column names and possible values from ITS Blocks level .CSV files from `ITS_to_seconds`.
@@ -54,9 +58,13 @@ For detailed explanations of the column names of each output file, see below lin
 
 [Seconds][Seconds] Explanations of column names and possible values from Seconds .CSV files from `ITS_to_seconds` function.
 
+### [`bin_seconds`][`bin_seconds`]
+
 [Binned Seconds/Minutes][Binned Seconds/Minutes] Explanations of column names and possible values from binned seconds/minutes .CSV files from `bin_seconds` function. Detailed explanation & examples of use: [bin_seconds-options][bin_seconds-options]
 
 **Outputs from each `ITS_to_seconds` function run**
+
+For the below outputs, one CSV will be output per *folder* run through [`ITS_to_seconds`][`ITS_to_seconds`].
 
 [ITS_checks][ITS_checks] ITS_checks.csv output from `check_multiday` & `ITS_to_seconds` column name explanations
 
@@ -66,20 +74,20 @@ For detailed explanations of the column names of each output file, see below lin
 [processing_completed][processing_completed] Column name explanations for processing_completed.csv output from `check_multiday` & `ITS_to_seconds`. The purpose of this CSV is to keep track of what has/has not been completed in a given run of `check_multiday` or `ITS_to_seconds`. `check_multiday` will only have the first 3 fields, while `ITS_to_seconds` will have all fields listed.
 
 
-[`check_multiday`]: /docs/reference/check_multiday.html
-[`remove_recordings`]: /docs/reference/remove_recordings.html
-[`ITS_to_seconds`]: /docs/reference/ITS_to_seconds.html
-[`bin_seconds`]: /docs/reference/bin_seconds.html
-[bin_seconds-options]: /docs/articles/bin_seconds-options.html
+[`check_multiday`]: https://htanderson.github.io/ITSbin/docs/reference/check_multiday.html
+[`remove_recordings`]: https://htanderson.github.io/ITSbin/docs/reference/remove_recordings.html
+[`ITS_to_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html
+[`bin_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html
+[bin_seconds-options]: https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html
 
 
-[Recordings]: /helpfiles/Recordings_ColumnNames.csv
-[Blocks]: /helpfiles/Blocks_ColumnNames.csv
-[Segments]: /helpfiles/Segments_ColumnNames.csv
-[Seconds]: /helpfiles/Seconds_ColumnNames.csv
-[Centiseconds]: /helpfiles/Centiseconds_ColumnNames.csv
-[Binned Seconds/Minutes]: /helpfiles/Minutes_ColumnNames.csv
+[Recordings]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Recordings_ColumnNames.csv
+[Blocks]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Blocks_ColumnNames.csv
+[Segments]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Segments_ColumnNames.csv
+[Seconds]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Seconds_ColumnNames.csv
+[Centiseconds]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Centiseconds_ColumnNames.csv
+[Binned Seconds/Minutes]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Minutes_ColumnNames.csv
 
-[ITS_checks]: /helpfiles/ITS_checks_ColumnNames.csv
-[Validation]: /helpfiles/validation_ColumnNames.csv
-[processing_completed]: /helpfiles/processing_completed_ColumnNames.csv
+[ITS_checks]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/ITS_checks_ColumnNames.csv
+[Validation]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/validation_ColumnNames.csv
+[processing_completed]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/processing_completed_ColumnNames.csv

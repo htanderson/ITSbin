@@ -89,8 +89,8 @@
 
     
     
-<p>The purpose of this vignette is to give further explanation and illustration of the options for the <code>bin_seconds</code> function.</p>
-<p>All graphs display Adult Word Count (allAdultWords) in 5-minute bins across 1 full day for 1 .its file. While the function will be calculated from seconds, not 5-minute bins, 5-minute bins are easier to visualize. Periods where the purple line is flat indicate the recorder was on, but there were no adult words. Breaks in the purple line indicate the recorder was off at this time. Orange-outline boxes indicate the time period that goes into each bin.</p>
+<p>The purpose of this vignette is to give further explanation and illustration of the options for the <code>bin_seconds</code> function. The <code>bin_seconds</code> function is useful if, for instance, you want to know how many adult words LENA captured in each hour, or how many conversational turns LENA captured every 3 hours. This function allows you to <em>flexibly</em> bin into different bin sizes (eg, 5, 30, 180 minutes, or the total recording day). The many user options are detailed below.</p>
+<p>All graphs display Adult Word Count (allAdultWords) in 5-minute bins across 1 full day for 1 .its file. While the function will be calculated from seconds, not 5-minute bins, 5-minute bins are easier to visualize. Periods where the purple line is zero indicate the recorder was on, but there were no adult words. Breaks in the purple line indicate the recorder was off at this time. Orange-outline boxes indicate the time period that goes into each bin.</p>
 <div id="align-rows-midnight-or-recorder-on" class="section level2">
 <h2 class="hasAnchor">
 <a href="#align-rows-midnight-or-recorder-on" class="anchor"></a>align.rows: midnight or recorder-on</h2>
