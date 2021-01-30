@@ -50,6 +50,7 @@ If you select "midnight" and bin to 180-minute bins (3 hours), the first row wil
 This option can be useful if your research question relies on using all available data without regard for time of day.
 
 If you select "recorder-on" and bin to 180-minute bins, the first row will encompass 180 minutes from whenever the recorder was first turned on. If the recorder was turned on at 8:23:19 am, then the first 2 rows would be 1) 8:23:19.00 to 11:23:18.99, 2) 11:23:19.00 to 14:23:18.99.
+
 ![AdultWordCount in 1 full recording day](bin_seconds-options/useroptions_recorder-onseqCRTRUE.jpg)
 
 **Example data output - click to zoom:**
