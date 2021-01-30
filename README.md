@@ -74,11 +74,11 @@ For the below outputs, one CSV will be output per *folder* run through [`ITS_to_
 [processing_completed][processing_completed] Column name explanations for processing_completed.csv output from `check_multiday` & `ITS_to_seconds`. The purpose of this CSV is to keep track of what has/has not been completed in a given run of `check_multiday` or `ITS_to_seconds`. `check_multiday` will only have the first 3 fields, while `ITS_to_seconds` will have all fields listed.
 
 
-[`check_multiday`]: https://htanderson.github.io/ITSbin/docs/reference/check_multiday.html
-[`remove_recordings`]: https://htanderson.github.io/ITSbin/docs/reference/remove_recordings.html
-[`ITS_to_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/ITS_to_seconds.html
-[`bin_seconds`]: https://htanderson.github.io/ITSbin/docs/reference/bin_seconds.html
-[bin_seconds-options]: https://htanderson.github.io/ITSbin/docs/articles/bin_seconds-options.html
+[`check_multiday`]: https://htanderson.github.io/ITSbin/reference/check_multiday.html
+[`remove_recordings`]: https://htanderson.github.io/ITSbin/reference/remove_recordings.html
+[`ITS_to_seconds`]: https://htanderson.github.io/ITSbin/reference/ITS_to_seconds.html
+[`bin_seconds`]: https://htanderson.github.io/ITSbin/reference/bin_seconds.html
+[bin_seconds-options]: https://htanderson.github.io/ITSbin/articles/bin_seconds-options.html
 
 
 [Recordings]: https://github.com/htanderson/ITSbin/blob/master/helpfiles/Recordings_ColumnNames.csv
