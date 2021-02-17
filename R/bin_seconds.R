@@ -460,7 +460,7 @@ Beginning file ", secfileNum, "/", length(file.names),
                          sum(TVF),
 
                        "SIL" =
-                         sum(MAN),
+                         sum(SIL),
 
                        "OFF" =
                          sum(OFF)
@@ -729,7 +729,7 @@ Beginning file ", secfileNum, "/", length(file.names),
                                           f = sum_double),
 
                                 "SIL" =
-                                  rollfun(x = MAN,
+                                  rollfun(x = SIL,
                                           f = sum_double),
 
                                 "OFF" =
@@ -1063,7 +1063,7 @@ Beginning file ", secfileNum, "/", length(file.names),
                                    f = sum_double),
 
                          "SIL" =
-                           rollfun(x = MAN,
+                           rollfun(x = SIL,
                                    f = sum_double),
 
                          "OFF" =
