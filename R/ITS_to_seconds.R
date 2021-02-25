@@ -1342,7 +1342,7 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                                 convType, convTurnType, convFloorType,
 
                                 # datetime info
-                                dateMidnight_epoch, timezone,
+                                dateMidnight_epoch,
                                 startclocklocal_secMidnight,
                                 recordingStart,
 
@@ -1633,6 +1633,8 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
       rm(speakers.DT, speakers)
 
       ### DateTime Additions ###
+
+      centiseconds.DT[, "timezone" := time.zone]
 
       # add epoch date (to keep hold of it)
       centiseconds.DT[,
@@ -1961,7 +1963,6 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
                           # dateTime info
                           startclocklocal_secMidnight =
                             first(startclocklocal_secMidnight),
-                          timezone = first(timezone),
                           recordingStart = first(recordingStart),
                           secMidnightDate = first(secMidnightDate),
                           dateTime_UTC = first(dateTime_UTC)
@@ -1974,6 +1975,8 @@ Beginning file ", ITSfileNum, "/", length(ITS.files),
       seconds.DT[dplyr::contains(".", vars = spkr), doubleSpkr := 1]
       seconds.DT[is.na(doubleSpkr), doubleSpkr := 0]
 
+      # add timezone without NAs
+      seconds.DT[, "timezone" := time.zone]
 
       seconds.DT <-
         data.table(subjID = subjID,
