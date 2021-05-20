@@ -9,7 +9,9 @@ This package takes LENA&trade; `.its` (Iterative Time Segments) files, extracts 
 This package is not available on CRAN. To install this package from GitHub, you will also need the package `devtools`. Run the code below to install ITSbin on your computer.
 
 ```r   
-if(!require(devtools) install.packages("devtools")
+if(!"devtools" %in% installed.packages()[,"Package"]) {
+  install.packages("devtools")
+  }
 devtools::install_github("htanderson/ITSbin", dependencies = TRUE)
 ```
 
